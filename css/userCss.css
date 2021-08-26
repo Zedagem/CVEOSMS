@@ -1,0 +1,83 @@
+*{
+    box-sizing: border-box;
+}
+body{
+background-color: #C4E8F1;
+}
+.sidenav {
+height: 100%;
+width: 15%;
+position: fixed;
+z-index: 1;
+top: 0;
+left: 0;
+background-color: #55A9BE;
+overflow-x: hidden;
+padding-top: 20px;
+}
+
+.sidenav a {
+padding: 6px 8px 6px 16px;
+text-decoration: none;
+font-size: 25px;
+color: #090A4E;
+display: block;
+}
+
+.sidenav a:hover {
+color: #00CCFF
+}
+
+.main {
+margin-left: 20%; /* Same as the width of the sidenav */
+font-size: 28px; /* Increased text to enable scrolling */
+padding: 0px 10px;
+}
+.main a{
+text-decoration: none;
+color: #090A4E;
+}
+.main a:hover{
+color: #00CCFF;
+}
+
+#logo{
+font-family: 'Chalkboard';
+font-size: 2vw;
+}
+#dropdownSize{
+font-size: 1.5rem;
+padding: 10px 5px;
+}
+ul{
+list-style: none;
+padding: 0;
+color: white;
+}
+.border{
+border-radius: 20px;
+background-color:rgba(255, 255, 255, 0.9);;
+margin: 20px 20px;
+padding:30px 20px;
+box-shadow: 0px 3px 6px;
+
+}
+.border a {
+display: block;
+}
+.svg{
+padding-top: 5px;
+color: black;
+}
+h3{
+color: #00CCFF;
+}
+.ethio-back img{
+position: absolute;
+right:2vw;
+top:10vw;
+}
+/* @media screen and (max-height: 450px) {
+.sidenav {padding-top: 15px;}
+.sidenav a {font-size: 18px;}
+} */
