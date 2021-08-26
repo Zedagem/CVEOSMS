@@ -17,15 +17,15 @@
         </div>
 
         <div class="mt-5">
-            <a href=".php">Request</a>
+            <a href="request.php">Request</a>
         </div>
 
         <div class="mt-5">
-            <a href=".php">Pending</a>
+            <a href="pending.php">Pending</a>
         </div>
 
         <div class="mt-5">
-            <a href=".php">Schedule</a>
+            <a href="schedule.php">Schedule</a>
         </div>
 
         <div class="mt-5">
