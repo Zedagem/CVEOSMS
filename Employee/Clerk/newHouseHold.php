@@ -1,6 +1,15 @@
 <?php
-// Initialize the session
+//Initialize the session
 session_start();
+ 
+// Check if the user is logged in, if not then redirect him to login page
+if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
+    header("location: http://localhost:8080/Employee/login.php");
+    exit;
+}
+?>
+<?php
+
 
 
 
@@ -38,10 +47,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $sql2 = "SELECT * from household WHERE phoneNumber = :phoneNumber ";
     $stmt2 = $pdo->prepare($sql2);
     $stmt2->bindParam(":phoneNumber", $phoneNumber, PDO::PARAM_INT);
-    $stmt2->bindParam(":houseNumber", $houseNumber, PDO::PARAM_INT);
-    $stmt2->bindParam(":fname", $fname, PDO::PARAM_STR);
-    $stmt2->bindParam(":mname", $mname, PDO::PARAM_STR);
-    $stmt2->bindParam(":lname", $lname, PDO::PARAM_STR);
+    // $stmt2->bindParam(":houseNumber", $houseNumber, PDO::PARAM_INT);
+    // $stmt2->bindParam(":fname", $fname, PDO::PARAM_STR);
+    // $stmt2->bindParam(":mname", $mname, PDO::PARAM_STR);
+    // $stmt2->bindParam(":lname", $lname, PDO::PARAM_STR);
     $stmt2->execute();
     if ($stmt2->rowCount() >= 1) {
         $duplicate_account = "This household is already registered";

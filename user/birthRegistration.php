@@ -1,7 +1,9 @@
 <?php
 session_start();
 $error = "";
+$childPhoto = $yellowCard = $hospitalBirthCert = "";
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    
     if (isset($_POST['next'])) {
         // code...
         foreach ($_POST as $key => $value) {
@@ -13,28 +15,42 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // code...
             unset($_SESSION['birthInfo']['next']);
         }
-        header('Location:birthRegistration2.php');
-    }
-    if (empty($_FILES['yellowCard']['name']) && empty($_FILES['childPhoto']['name'])) {
-        $error = 'This field is required.';
-       
-    } else {
-       
-
-        if ($_FILES['childPhoto']['size'] > 2097152) {
-            $error = 'File should not be more than 2MB.';
-        } elseif ($_FILES['yellowCard']['size'] > 2097152) {
-            $error = 'File should not be more than 2MB.';
-        } elseif ($_FILES['hospitalBirthCert']['size'] > 2097152) {
-            $error = 'File should not be more than 2MB.';
+        if (empty($_FILES['yellowCard']['name']) && empty($_FILES['childPhoto']['name'])) {
+            $error = 'This field is required.';
         } else {
-            $_SESSION['childPhoto'] = $_FILES['childPhoto'];
-            $_SESSION['yellowCard'] = $_FILES['yellowCard'];
-            $_SESSION['hospitalBirthCert'] = $_FILES['hospitalBirthCert'];
 
+            if ($_FILES['childPhoto']['size'] > 2097152) {
+                $error = 'File should not be more than 2MB.';
+            } elseif ($_FILES['yellowCard']['size'] > 2097152) {
+                $error = 'File should not be more than 2MB.';
+            } elseif ($_FILES['hospitalBirthCert']['size'] > 2097152) {
+                $error = 'File should not be more than 2MB.';
+            } else {
+                echo "<script> alert('post is')</script>";
+                $_SESSION['childPhoto'] = 'files/birth/' . time() . $_FILES['childPhoto']['name'];
+                move_uploaded_file($_FILES['childPhoto']['tmp_name'], "../" . $_SESSION['childPhoto']);
+
+
+                $_SESSION['yellowCard'] = 'files/birth/' . time() . $_FILES['yellowCard']['name'];
+                move_uploaded_file($_FILES['yellowCard']['tmp_name'], "../" . $_SESSION['yellowCard']);
+
+                $_SESSION['hospitalBirthCert'] = 'files/birth/' . time() . $_FILES['hospitalBirthCert']['name'];
+                move_uploaded_file($_FILES['hospitalBirthCert']['tmp_name'], "../" . $_SESSION['hospitalBirthCert']);
+
+              
+
+                // $_SESSION['childPhoto'] = $childPhoto;
+                // $_SESSION['yellowCard'] = $yellowCard;
+                // $_SESSION['hospitalBirthCert'] =$hospitalBirthCert;
+                header('Location:birthRegistration2.php');
+
+            }
         }
+       
     }
 }
+
+
 ?>
 <?php include '../header.php' ?>
 <link rel="stylesheet" type="text/css" href="../css/style.css">
@@ -153,10 +169,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <label for="hospitalBirthCert"> Hospital Birth Certificate</label>
                 <input type="file" name="hospitalBirthCert" id="hospitalBirthCert" accept=".jpeg,.png,.jpg,.pdf" class="form-control input-style" required>
                 <small class="form-text text-muted">Supported type (.jpeg .png .jpg .pdf)</small>
+                <?php echo $error; ?>
             </div>
 
             <div class="col-lg-4 col-md-6 col-sm-12 input-group-lg ">
-                <label for="hospitalBirthCert"> Vaccine Yellow Card</label>
+                <label for="yellowCard"> Vaccine Yellow Card</label>
                 <input type="file" name="yellowCard" id="yellowCard" accept=".jpeg,.png,.jpg,.pdf" class="form-control input-style" required>
                 <small class="form-text text-muted">Supported type (.jpeg .png .jpg .pdf)</small>
             </div>
@@ -164,6 +181,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <label for="childPhoto"> Child Photograph</label>
                 <input type="file" name="childPhoto" id="childPhoto" accept=".jpeg,.png,.jpg" class="form-control input-style" required>
                 <small class="form-text text-muted">Supported type (.jpeg .png .jpg )</small>
+                <?php echo $error; ?>
             </div>
 
 

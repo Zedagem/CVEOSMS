@@ -1,7 +1,32 @@
-<?php include '../../header.php' ?>
+<?php
+ // Initialize the session
+ session_start();
+ 
+ // Check if the user is logged in, if not then redirect him to login page
+ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
+     header("location: login.php");
+     exit;
+ }
+include '../../header.php'; 
+require_once "../../dbconnection.php";?>
 <link rel="stylesheet" type="text/css" href="../../css/style.css">
 
 <title>View Residents </title>
+<style>
+    table {
+    border-collapse: collapse;
+    width: 100%;
+    color: #588c7e;
+    font-family: monospace;
+    font-size: 25px;
+    text-align: left;
+    }
+    th {
+    background-color: #55A9BE;
+    color: black;
+    }
+    tr:nth-child(even) {background-color: #f2f2f2}
+    </style>
 
 </head>
 
@@ -20,33 +45,63 @@
             <div class="col-lg-2 col-md-2 col-sm-4 input-group-lg">
                 <input type="submit" value="Search" name="submit" class="form-control btn btn-primary ">
             </div>
-
-            <table class="table mt-5 ">
-                <thead class="thead-dark">
-                    <tr>
-                        <th scope="col">Member Type</th>
-                        <th scope="col">First Name</th>
-                        <th scope="col">Middle Name</th>
-                        <th scope="col">Last Name</th>
-                        <th scope="col">Date of Birth</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <th scope="row">Owner(Husband)</th>
-                        <td>Mark</td>
-                        <td>Otto</td>
-                        <td>Fera</td>
-                        <td>June 08 1999</td>
-                    </tr>
-
-                </tbody>
-
-            </table>
-
-
-
         </form>
+ <h2 class="mt-5 text-center">Resident info </h2>
+ <table class="table mt-5 ">
+<thead class="thead-dark">
+ <tr>
+     <th scope="col">H.No</th>
+     <th scope="col">Member Type</th>
+     <th scope="col">Full Name</th>
+     <th scope="col">Phone</th>
+     <th scope="col">Email</th>
+     <th scope="col">Gender</th>
+     <th scope="col">Date of Birth(GC)</th>
+     <th scope="col">More Informaiton</th>
+     
+     
+ </tr>
+</thead>
+<?php
+
+
+if($_SERVER["REQUEST_METHOD"] == "POST"){
+    $search= trim($_POST["search"]);
+    // $del=$search;
+
+  
+   // $delete_exec= trim($_POST["delete"]);
+    
+    if(isset($_POST["submit"])) {
+ // Prepare a select statement
+ 
+require_once "../../dbconnection.php";
+   $sql = "SELECT * FROM household where houseNumber='$search' ";
+ $stmt = $pdo->query($sql);
+ $stmt = $pdo->prepare($sql);
+ $stmt->execute();
+  
+if($stmt->rowCount() >0){
+   while($row = $stmt->fetch()){?>
+ 
+     <tr>
+     <td> <?php echo $row["houseNumber"]?> </td>
+     <td> <?php echo $row["memberType"]?> </td>
+     <td> <?php echo $row["fname"]." ".$row["mname"]." ".$row["lname"]?> </td>
+     <td> <?php echo $row["phoneNumber"]?> </td>
+     <td> <?php echo $row["email"]?> </td>
+     <td> <?php echo $row["sex"]?> </td>
+     <td> <?php echo $row["dobGC"]?> </td>
+     <td> <a target="_blank" href="viewFullInfo.php?id=<?php echo $row['houseNumber']; ?>">View</a>
+    
+  
+    </tr>
+  
+   <?php }
+ }
+}
+}
+?>
 
 
 

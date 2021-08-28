@@ -1,20 +1,26 @@
 <?php
-// Initialize the session
+//Initialize the session
 session_start();
 
-
+// Check if the user is logged in, if not then redirect him to login page
+if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
+    header("location: http://localhost:8080/Employee/login.php");
+    exit;
+}
+?>
+<?php
 
 // Include dbconnection file
 require_once "../../dbconnection.php";
 
 // Define variables and initialize with empty values
-$memberType=$houseNumber = $phoneNumber = $dobEC = $dobGC = $gender = $photo = $titleCert = $fname = $mname = $lname = $fnameA = $mnameA = $lnameA =
-    $fatherLastName = $mothername = $motherLastName = $email = $duplicate_account =$sucess_message= $household_error="";
+$memberType = $houseNumber = $phoneNumber = $dobEC = $dobGC = $gender = $photo = $titleCert = $fname = $mname = $lname = $fnameA = $mnameA = $lnameA =
+    $fatherLastName = $mothername = $motherLastName = $email = $duplicate_account = $sucess_message = $household_error = "";
 
 // Processing form data when form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-    $memberType =strtoupper(trim($_POST["memberType"]));
+    $memberType = strtoupper(trim($_POST["memberType"]));
     $houseNumber = strtoupper(trim($_POST["houseNumber"]));
     $phoneNumber = strtoupper(trim($_POST["phoneNumber"]));
     $dobEC = strtoupper(trim($_POST["dobEC"]));
@@ -37,60 +43,59 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt3 = $pdo->prepare($sql3);
     $stmt3->bindParam(":houseNumber", $houseNumber, PDO::PARAM_INT);
     $stmt3->execute();
-    if ($stmt3->rowCount() >= 1){
 
-    
+    if ($stmt3->rowCount() >= 1) {
 
-
-    // select statement for cross checking 
-    $sql2 = "SELECT * from household WHERE phoneNumber = :phoneNumber ";
-    $stmt2 = $pdo->prepare($sql2);
-    $stmt2->bindParam(":phoneNumber", $phoneNumber, PDO::PARAM_INT);
-    $stmt2->execute();
-    if ($stmt2->rowCount() >= 1) {
-        $duplicate_account = "This person is already registered";
-    } else {
+        // select statement for cross checking 
+        $sql2 = "SELECT * from household WHERE phoneNumber = :phoneNumber ";
+        $stmt2 = $pdo->prepare($sql2);
+        $stmt2->bindParam(":phoneNumber", $phoneNumber, PDO::PARAM_INT);
+        $stmt2->execute();
+        if ($stmt2->rowCount() >= 1) {
+            $duplicate_account = "This person is already registered";
+        } else {
 
 
-        // Prepare a insert statement
-        $sql = "INSERT INTO household (memberType,houseNumber,phoneNumber,dobEC,dobGC,sex,photo,titleCert,fname,mname,lname,fnameA,mnameA,lnameA,fatherLastName,mothername,motherLastName,email) 
+            // Prepare a insert statement
+            $sql = "INSERT INTO household (memberType,houseNumber,phoneNumber,dobEC,dobGC,sex,photo,titleCert,fname,mname,lname,fnameA,mnameA,lnameA,fatherLastName,mothername,motherLastName,email) 
                                 values ('$memberType',:houseNumber,:phoneNumber,:dobEC,:dobGC,:gender,:photo,' ',:fname,:mname,:lname,:fnameA,:mnameA,:lnameA,:fatherLastName,:mothername,:motherLastName,:email);";
 
-        // Prepare stmt
-        $stmt = $pdo->prepare($sql);
+            // Prepare stmt
+            $stmt = $pdo->prepare($sql);
 
 
-        // Bind variables to the prepared statement as parameters
-       // $stmt->bindParam(":memberType", $memberType, PDO::PARAM_STR);
-        $stmt->bindParam(":houseNumber", $houseNumber, PDO::PARAM_INT);
-        $stmt->bindParam(":phoneNumber", $phoneNumber, PDO::PARAM_INT);
-        $stmt->bindParam(":dobEC", $dobEC, PDO::PARAM_STR);
-        $stmt->bindParam(":dobGC", $dobGC, PDO::PARAM_STR);
-        $stmt->bindParam(":gender", $gender, PDO::PARAM_STR);
-        $stmt->bindParam(":photo", $photo, PDO::PARAM_STR);
-        // $stmt->bindParam(":titleCert", $titleCert, PDO::PARAM_STR);
-        $stmt->bindParam(":fname", $fname, PDO::PARAM_STR);
-        $stmt->bindParam(":mname", $mname, PDO::PARAM_STR);
-        $stmt->bindParam(":lname", $lname, PDO::PARAM_STR);
-        $stmt->bindParam(":fnameA", $fnameA, PDO::PARAM_STR);
-        $stmt->bindParam(":mnameA", $mnameA, PDO::PARAM_STR);
-        $stmt->bindParam(":lnameA", $lnameA, PDO::PARAM_STR);
-        $stmt->bindParam(":fatherLastName", $fatherLastName, PDO::PARAM_STR);
-        $stmt->bindParam(":mothername", $mothername, PDO::PARAM_STR);
-        $stmt->bindParam(":motherLastName", $motherLastName, PDO::PARAM_STR);
-        $stmt->bindParam(":email", $email, PDO::PARAM_STR);
+            // Bind variables to the prepared statement as parameters
+            // $stmt->bindParam(":memberType", $memberType, PDO::PARAM_STR);
+            $stmt->bindParam(":houseNumber", $houseNumber, PDO::PARAM_INT);
+            $stmt->bindParam(":phoneNumber", $phoneNumber, PDO::PARAM_INT);
+            $stmt->bindParam(":dobEC", $dobEC, PDO::PARAM_STR);
+            $stmt->bindParam(":dobGC", $dobGC, PDO::PARAM_STR);
+            $stmt->bindParam(":gender", $gender, PDO::PARAM_STR);
+            $stmt->bindParam(":photo", $photo, PDO::PARAM_STR);
+            // $stmt->bindParam(":titleCert", $titleCert, PDO::PARAM_STR);
+            $stmt->bindParam(":fname", $fname, PDO::PARAM_STR);
+            $stmt->bindParam(":mname", $mname, PDO::PARAM_STR);
+            $stmt->bindParam(":lname", $lname, PDO::PARAM_STR);
+            $stmt->bindParam(":fnameA", $fnameA, PDO::PARAM_STR);
+            $stmt->bindParam(":mnameA", $mnameA, PDO::PARAM_STR);
+            $stmt->bindParam(":lnameA", $lnameA, PDO::PARAM_STR);
+            $stmt->bindParam(":fatherLastName", $fatherLastName, PDO::PARAM_STR);
+            $stmt->bindParam(":mothername", $mothername, PDO::PARAM_STR);
+            $stmt->bindParam(":motherLastName", $motherLastName, PDO::PARAM_STR);
+            $stmt->bindParam(":email", $email, PDO::PARAM_STR);
 
 
-        //execute stmt
-        $stmt->execute();
-        $sucess_message = "Inserted Into Household ";
+            //execute stmt
+            $stmt->execute();
+            $sucess_message = "Inserted Into Household ";
+        }
+        unset($stmt);
+        unset($stmt2);
     }
-    unset($stmt);
-    unset($stmt2);
-}
-}else{
-    $household_error ="There is no recorded household by that house number!!";
-}
+    else {
+        $household_error = "There is no recorded household by that house number!!";
+    }
+} 
 unset($pdo);
 
 ?>
@@ -98,20 +103,20 @@ unset($pdo);
 <link rel="stylesheet" type="text/css" href="../../css/style.css">
 <script src="../../js/regionSelection.js"></script>
 
-<title>Insert  New Household</title>
+<title>Insert New Household</title>
 
 </head>
 
 <body>
     <?php include 'clerkTemplet.php' ?>
-    <h2 class="mt-5 text-center">Inserting Into a New HouseHold  </h2>
+    <h2 class="mt-5 text-center">Inserting Into a New HouseHold </h2>
     <div class="container-fluid">
         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST" class="row g-3 mt-5">
 
-        <div class="col-lg-4 col-md-6 col-sm-12 input-group-lg">
+            <div class="col-lg-4 col-md-6 col-sm-12 input-group-lg">
                 <input type="text" name="houseNumber" placeholder="House Number" class="form-control input-style">
             </div>
-          
+
 
             <p>Personal Information</p>
             <div class="col-lg-4 col-md-6 col-sm-12 input-group-lg">
@@ -157,7 +162,7 @@ unset($pdo);
             <div class="col-lg-4 col-md-6 col-sm-12 input-group-lg">
                 <input type="text" name="motherLastName" placeholder=" Mother Last Name " class="form-control input-style">
             </div>
-   
+
 
             <div class="col-lg-6 col-md-6 col-sm-12 input-group-lg">
                 <input type="tel" name="phoneNumber" placeholder="Phone Number" pattern="[0-9]{10}" class="form-control input-style" required>
@@ -183,16 +188,17 @@ unset($pdo);
                 <label for="photo"> Photograph</label>
                 <input type="file" name="photo" id="photo" class="form-control input-style">
             </div>
-        
+
 
             <div class="col-lg-2 col-md-2 col-sm-4 input-group-lg">
                 <label for=""></label>
                 <input type="submit" value="Create" name="submit" class="form-control btn btn-primary ">
 
                 <div class="col-lg-6 col-md-6 col-sm-12">
-                <strong style="color:red;"><?php echo $duplicate_account; echo $household_error ?></strong>
-                <strong style="color: green;"><?php echo $sucess_message ?></strong>
-            </div>
+                    <strong style="color:red;"><?php echo $duplicate_account;
+                                                echo $household_error ?></strong>
+                    <strong style="color: green;"><?php echo $sucess_message ?></strong>
+                </div>
             </div>
 
 

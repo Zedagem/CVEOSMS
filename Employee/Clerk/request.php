@@ -1,12 +1,22 @@
 <?php
+//Initialize the session
+session_start();
+
+// Check if the user is logged in, if not then redirect him to login page
+if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
+    header("location: http://localhost:8080/Employee/login.php");
+    exit;
+}
+?>
+<?php
 try {
-		require_once "../../dbconnection.php";
-        $sql="SELECT * From birthrequest  WHERE readEmp = false ";
-		$stmt = $pdo->prepare($sql);
-		$stmt->execute();
-	} catch (PDOException $e) {
-		echo $e->getMessage();
-	}
+    require_once "../../dbconnection.php";
+    $sql = "SELECT * From birthrequest  WHERE readEmp = false ";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute();
+} catch (PDOException $e) {
+    echo $e->getMessage();
+}
 ?>
 <?php include '../../header.php' ?>
 <link rel="stylesheet" type="text/css" href="../../css/style.css">
@@ -18,52 +28,57 @@ try {
 <body>
     <?php include 'clerkTemplet.php' ?>
     <h2 class="mt-5 text-center">Clerk Request Page </h2>
-    <div class="container-fluid">
-    <table class="table mt-5 ">
-                <thead class="thead-dark">
+    <div class="container">
+        <table class="table mt-5 ">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Requester Name</th>
+                    <th>Request Type</th>
+                    <th>Request Date</th>
+                    <th>View Full Informaiton</th>
+                    <th>Hospital Certificate</th>
+                    <th>Vaccine Card</th>
+                    <th>Child Photo</th>
+                    <th>Mother ID</th>
+                    <th>Father ID</th>
+                    <th></th>
+                    <th> </th>
+
+                </tr>
+            </thead>
+            <tbody>
+                <?php
+                while ($row = $stmt->fetch()) {
+                ?>
+
                     <tr>
-                        <th scope="col">Requester Name</th>
-                        <th scope="col">Request Type</th>
-                        <th scope="col">Request Date</th>
-                        <th scope="col">Hospital Certificate</th>
-                        <th scope="col">Vaccine Card</th>
-                        <th scope="col">Child Photo</th>
-                        <th scope="col">Mother ID</th>
-                        <th scope="col">Father ID</th>
-                        <th scope="col"></th>
-                        <th scope="col"> </th>
-                        
+
+                        <td> <?php echo $row['firstName'] ?> </td>
+                        <td><?php echo $row['Rtype'] ?> </td>
+                        <td><?php echo $row['appliedDate'] ?> </td>
+                        <td> <a target="_blank" href="viewInformation.php?id=<?php echo $row['id']; ?>">View</a>
+                        <td> <a target="_blank" href="<?php echo 'http://localhost:8080/' . $row['hospitalBirthCert'] ?>">View</a>
+                        <td> <a target="_blank" href="<?php echo 'http://localhost:8080/' . $row['yellowCard'] ?>">View</a></td>
+                        <td> <a target="_blank" href="<?php echo 'http://localhost:8080/' . $row['childPhoto'] ?>">View</a></td>
+                        <td> <a target="_blank" href="<?php echo 'http://localhost:8080/' . $row['motherId'] ?>">View</a>
+                        <td> <a target="_blank" href="<?php echo 'http://localhost:8080/' . $row['fatherId'] ?>">View</a></td>
+                        <td><a class='form-control btn btn-primary' href="send.php?id=<?php echo $row['id']; ?>">Send</a></td>
+                        <td><a class='form-control btn btn-primary' href="decline.php?id=<?php echo $row['id']; ?>&phoneNumber=<?php echo $row['phoneNumber']; ?>">Decline</a></td>
+
+
+
+
                     </tr>
-                </thead>
-                <tbody>
-                    <?php
-                    while($row=$stmt->fetch()){
-                  
-                        echo" <tr>";
-                                    
-                            echo"<td>".$row['firstName']."</td>";
-                            echo "<td>".$row['Rtype'] ."</td>";
-                            echo"<td>".$row['appliedDate']."</td>";
-                            echo"<td>".$row['hospitalBirthCert']."</td>";
-                            echo "<td>".$row['yellowCard'] ."</td>";
-                            echo"<td>".$row['childPhoto']."</td>";
-                            echo "<td>".$row['motherId'] ."</td>";
-                            echo"<td>".$row['fatherId']."</td>";
-                            echo" <td><button class='form-control btn btn-primary'>Send</button></td>";
-                            echo" <td><button class='form-control btn btn-primary'>Decline</button></td>";
 
-                                    
-                        echo"</tr>";
-                     
-                    }
-                  
-                    ?>
+                <?php } ?>
 
-                </tbody>
 
-            </table>
-       
-     
+
+            </tbody>
+
+        </table>
+
+
 
 
 

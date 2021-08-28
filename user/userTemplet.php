@@ -25,7 +25,7 @@
             </div>
 
             <div class="mt-5">
-            <a href="../loginPage.php">LogOut</a>
+            <a href="../sessionDestroy.php">LogOut</a>
             </div>
             
             

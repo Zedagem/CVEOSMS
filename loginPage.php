@@ -10,6 +10,7 @@ $username_err = $password_err = $confirm_password_err = "";
 if($_SERVER["REQUEST_METHOD"] == "POST"){
 
     $phoneNumber = trim($_POST["phoneNumber"]);
+    $phoneNumber = $phoneNumber*1;
     $password = trim($_POST["password"]);
 
 

@@ -12,25 +12,12 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
 
 $message="";
 $appliedDate=date("Y-m-d");
-$phoneNumber= $_SESSION["phoneNumber"];
-
-$childPhoto = 'files/'.time().$_SESSION['childPhoto']['name'];
-move_uploaded_file($_SESSION['childPhoto']['tmp_name'],"../".$childPhoto);
-
-$yellowCard = 'files/'.time().$_SESSION['yellowCard']['name'];
-move_uploaded_file($_SESSION['yellowCard']['tmp_name'],"/Users/z/Documents/CVEOSMS/".$yellowCard);
-
-$hospitalBirthCert = 'files/'.time().$_SESSION['hospitalBirthCert']['name'];
-move_uploaded_file($_SESSION['hospitalBirthCert']['tmp_name'],"Users/z/Documents/CVEOSMS/".$hospitalBirthCert);
-
-$motherId = 'files/birth/'.time().$_SESSION['motherId']['name'];
-move_uploaded_file($_SESSION['motherId']['tmp_name'],"Users/z/Documents/CVEOSMS/".$motherId);
-
-$fatherId = 'files/birth/'.time().$_SESSION['fatherId']['name'];
-move_uploaded_file($_SESSION['fatherId']['tmp_name'],"Users/z/Documents/CVEOSMS/".$fatherId);
-
-print_r($_SESSION['childPhoto']);
-
+$phoneNumber = $_SESSION['phoneNumber'];
+$hospitalBirthCert=$_SESSION['hospitalBirthCert'];
+$yellowCard=$_SESSION['yellowCard'];
+$childPhoto=$_SESSION["childPhoto"];
+$motherId=$_SESSION['motherId'];
+$fatherId=$_SESSION['fatherId'];
 
 	try {
 		require_once "../dbconnection.php";
@@ -52,8 +39,8 @@ print_r($_SESSION['childPhoto']);
 // unset($_SESSION['hospitalBirthCert']);
 // unset($_SESSION['motherId']);
 // unset($_SESSION['fatherId']);
-unset($stmt);
-unset($pdo);
+// unset($stmt);
+// unset($pdo);
 ?>
 
 <?php include '../header.php' ?>
@@ -73,12 +60,14 @@ unset($pdo);
 		<div class="row text-center mt-5">
 			
 			<h1 style="color:green;"><?php echo $message; ?></h1>
+			<?php print_r($_SESSION); echo '\n\n'; echo 'birthcertificate='.$hospitalBirthCert;?>
 			<a href="userDashboard.php">Go Back</a>
 			
 
 		</div>
 
 
+	
 
 
 

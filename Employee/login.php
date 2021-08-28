@@ -1,6 +1,88 @@
-<?php include '../header.php'; ?>
+<?php  session_start(); 
+include '../header.php'; 
+require_once "../dbconnection.php";
 
-        <title>Login Page</title>
+
+// Define variables and initialize with empty values
+$id= $phoneNumber = $password = $email=$hash_password= $firstName=$middleName=$lastName=$houseNumber=$dateOfBirth= $cut="";
+$username_err = $password_err = $confirm_password_err = "";
+
+// Processing form data when form is submitted
+if($_SERVER["REQUEST_METHOD"] == "POST"){
+
+    $id = trim($_POST["idNumber"]);
+    $password = trim($_POST["password"]);
+ // Prepare a select statement
+ $sql = "SELECT * FROM employee WHERE EmployeeID = :employeeID";
+
+if($stmt = $pdo->prepare($sql)){
+    // Bind variables to the prepared statement as parameters
+    $stmt->bindParam(":employeeID", $id, PDO::PARAM_STR);
+    
+    // Attempt to execute the prepared statement
+    $stmt->execute();
+
+        if($stmt->rowCount() == 1){
+                    $row = $stmt->fetch();
+                    $hash_password = $row['Pword'];
+
+              if(password_verify($password,$hash_password)){
+                    $iddisplay= $row["EmployeeID"];
+                    $firstName = $row["FirstName"];
+                    $middleName = $row["MiddleName"];
+                    $lastName = $row["LastName"];
+                    $dateOfBirth = $row["DOB"];
+                    $houseNumber = $row["HouseNumber"];
+                    $email=$row["Email"];
+                  //  $hash_password=$row["Pword"];
+
+                    // Store data in session variables
+                    $_SESSION["loggedin"] = true;
+                    $_SESSION["EmployeeID"] = $iddisplay;
+                    $_SESSION["firstName"] = $firstName;
+                    $_SESSION["middleName"] = $middleName;
+                    $_SESSION["lastName"] = $lastName;
+                    $_SESSION["dateOfBirth"] = $dateOfBirth;
+                    $_SESSION["houseNumber"] = $houseNumber;
+                    $_SESSION["phoneNumber"] = $phoneNumber;
+                    $_SESSION["email"]=$email;
+                  //  $_SESSION["password"]=$hash_password;
+
+                    $cut= substr($id, 0,-6);  
+                    if($cut=="adm"){
+                        header("location: http://localhost:8080/Employee/Admin/adminAddEmployee.php");
+                    }elseif($cut=="cas"){
+                        header("location: http://localhost:8080/Employee/Cashier/pendingPayment.php");
+                    }elseif($cut=="cle"){
+                        header("location: http://localhost:8080/Employee/Clerk/newHouseHold.php");
+                    }elseif ($cut=="man"){
+                        header("location: http://localhost:8080/Employee/Manager/signOff.php");
+                    }
+               }
+            
+                else{
+                    $username_err = "<strong style='color:red'> ID or Password error ! </strong>";
+                }
+            
+        }
+        else{
+            echo 'nothing on the row';
+        }
+    }
+    else{
+        echo 'nothing prepared';
+    } 
+
+  
+// Close statement
+unset($stmt);
+// Close connection
+unset($pdo);
+    
+}
+
+   ?>  
+      <title>Login Page</title>
         <style>
             body{
                 background-color: #C4E8F1;

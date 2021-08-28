@@ -7,10 +7,10 @@
         <div>
             <ul>
                 <li class="mb-4"><img class="rounded-circle" src="../../img/profile.png" alt="profile picture" width="100vw" height="100vw"></li>
-                <li>Full name</li>
-                <li>Job Title</li>
-                <li>City</li>
-                <li>Country</li>
+                <li><?php echo $_SESSION["EmployeeID"] ?></li>
+                <li><?php echo $_SESSION["firstName"] . " " . $_SESSION["middleName"] ?></li>
+                <li><?php echo $_SESSION["email"] ?></li>
+                <li>Ethiopia</li>
 
             </ul>
         </div>
@@ -25,7 +25,7 @@
 
 
         <div class="mt-5 mb-5">
-            <a href="../login.php">LogOut</a>
+            <a href="../sessionDestroy.php">LogOut</a>
         </div>
 
 
