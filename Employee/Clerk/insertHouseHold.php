@@ -91,11 +91,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
         unset($stmt);
         unset($stmt2);
-    }
-    else {
+    } else {
         $household_error = "There is no recorded household by that house number!!";
     }
-} 
+}
 unset($pdo);
 
 ?>
@@ -197,7 +196,17 @@ unset($pdo);
                 <div class="col-lg-6 col-md-6 col-sm-12">
                     <strong style="color:red;"><?php echo $duplicate_account;
                                                 echo $household_error ?></strong>
-                    <strong style="color: green;"><?php echo $sucess_message ?></strong>
+
+                    <?php
+                    if ($sucess_message) {
+                        echo <<< EOF
+                        <script> alert('$sucess_message')</script>
+            EOF;
+                    }
+
+                    ?>
+                   
+
                 </div>
             </div>
 

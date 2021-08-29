@@ -11,7 +11,7 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
 <?php
 try {
     require_once "../../dbconnection.php";
-    $sql = "SELECT * From birthrequest  WHERE readEmp = 1 ";
+    $sql = "SELECT * From birthrequest  WHERE readEmp = 1 & readManager=false";
     $stmt = $pdo->prepare($sql);
     $stmt->execute();
 } catch (PDOException $e) {
@@ -62,8 +62,8 @@ try {
                         <td> <a target="_blank" href="<?php echo 'http://localhost:8080/' . $row['childPhoto'] ?>">View</a></td>
                         <td> <a target="_blank" href="<?php echo 'http://localhost:8080/' . $row['motherId'] ?>">View</a>
                         <td> <a target="_blank" href="<?php echo 'http://localhost:8080/' . $row['fatherId'] ?>">View</a></td>
-                        <td><a class='form-control btn btn-primary' href="send.php?id=<?php echo $row['id']; ?>">Sign</a></td>
-                        <td><a class='form-control btn btn-primary' href="decline.php?id=<?php echo $row['id']; ?>&phoneNumber=<?php echo $row['phoneNumber']; ?>">Decline</a></td>
+                        <td><a class='form-control btn btn-primary' href="sign.php?id=<?php echo $row['id']; ?>">Sign</a></td>
+                        <td><a class='form-control btn btn-primary' href="declineM.php?id=<?php echo $row['id']; ?>&phoneNumber=<?php echo $row['phoneNumber']; ?>">Decline</a></td>
 
 
 

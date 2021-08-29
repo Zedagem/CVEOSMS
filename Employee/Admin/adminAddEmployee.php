@@ -96,7 +96,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
         break;
         
         case 'Cashier':
-        $Emptype="Manager";
+        $Emptype="Cashier";
         break;
         
         case 'Manager':

@@ -112,7 +112,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                         $_SESSION["DOB"] = $dateOfBirth;
                                         $_SESSION["Housenum"] = $houseNumber;
                                         $_SESSION["email"] = $email;
-                                        $_SESSION["phoneNumebr"]=$phoneNumber;
+                                        $_SESSION["phoneNumber"]=$phoneNumber;
                                         $_SESSION["profile_photo"]=$profile_photo;
             
                                         // Redirect user to welcome page

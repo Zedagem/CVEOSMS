@@ -18,7 +18,7 @@ if($phoneNumber){
     $stmt2 = $pdo->prepare($sql2);
     $stmt2->execute();
     echo "<script> alert('request has been succesfuly declined')</script>";
-    header("location:request.php");
+    header("location:signOff.php");
     
 }
    

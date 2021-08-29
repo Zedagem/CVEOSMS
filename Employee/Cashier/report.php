@@ -1,3 +1,23 @@
+<?php
+//Initialize the session
+session_start();
+ 
+// Check if the user is logged in, if not then redirect him to login page
+if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
+    header("location: ../login.php");
+    exit;
+}
+?>
+<?php
+try {
+    require_once "../../dbconnection.php";
+    $sql = "SELECT * From report"; 
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute();
+} catch (PDOException $e) {
+    echo $e->getMessage();
+}
+?>
 <?php include '../../header.php' ?>
 <link rel="stylesheet" type="text/css" href="../../css/style.css">
 
@@ -15,19 +35,23 @@
     <tr>
       <th scope="col">Full Name</th>
       <th scope="col">Request Type</th>
-      <th scope="col">Date Of Request</th>
-      <th scope="col">Status</th>
+      <th scope="col">Payed Date</th>
+      
     </tr>
   </thead>
+  <?php
+            while ($row = $stmt->fetch()) {
+            ?>
+
   <tbody>
     <tr>
-      <th scope="row">Zedagem Shiferaw Demelash</th>
-      <td>Birth Certificate</td>
-      <td>June 09 2019</td>
-      <td>Paid</td>
+      <th><?php echo $row['fname'] ." ". $row['mname']." ". $row['lname']?></th>
+      <td><?php echo $row['requestType'] ?></td>
+      <td><?php echo $row['payedDate'] ?></td>
     </tr>
     
   </tbody>
+            <?php } ?>
 </table>
 
     </div>

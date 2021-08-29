@@ -10,9 +10,9 @@ $stmt = $pdo->prepare($sql);
 
 if($stmt->execute()) {
     echo "<script> alert('Sent to Scheduling')</script>";
-    header("location:request.php");
+    header("location:signOff.php");
 }
 else{
-    echo "error sending to manager";
+    echo "error sending to clerk";
 }
-?>
+
