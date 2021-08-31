@@ -36,7 +36,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $mothername = strtoupper(trim($_POST["mothername"]));
     $motherLastName = strtoupper(trim($_POST["motherLastName"]));
     $email = (trim($_POST["email"]));
-    $photo = (trim($_POST["photo"]));
+   
 
     //select statement for checking if that house number exist 
     $sql3 = "SELECT * from household WHERE houseNumber = :houseNumber ";
@@ -63,6 +63,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // Prepare stmt
             $stmt = $pdo->prepare($sql);
 
+            $_SESSION['photo'] = 'files/household/' . time() . $_FILES['photo']['name'];
+            move_uploaded_file($_FILES['photo']['tmp_name'], "../../" . $_SESSION['photo']);
 
             // Bind variables to the prepared statement as parameters
             // $stmt->bindParam(":memberType", $memberType, PDO::PARAM_STR);
@@ -71,7 +73,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $stmt->bindParam(":dobEC", $dobEC, PDO::PARAM_STR);
             $stmt->bindParam(":dobGC", $dobGC, PDO::PARAM_STR);
             $stmt->bindParam(":gender", $gender, PDO::PARAM_STR);
-            $stmt->bindParam(":photo", $photo, PDO::PARAM_STR);
+            $stmt->bindParam(":photo", $_SESSION['photo'], PDO::PARAM_STR);
             // $stmt->bindParam(":titleCert", $titleCert, PDO::PARAM_STR);
             $stmt->bindParam(":fname", $fname, PDO::PARAM_STR);
             $stmt->bindParam(":mname", $mname, PDO::PARAM_STR);
@@ -110,7 +112,7 @@ unset($pdo);
     <?php include 'clerkTemplet.php' ?>
     <h2 class="mt-5 text-center">Inserting Into a New HouseHold </h2>
     <div class="container-fluid">
-        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST" class="row g-3 mt-5">
+        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST" enctype="multipart/form-data" class="row g-3 mt-5">
 
             <div class="col-lg-4 col-md-6 col-sm-12 input-group-lg">
                 <input type="text" name="houseNumber" placeholder="House Number" class="form-control input-style">

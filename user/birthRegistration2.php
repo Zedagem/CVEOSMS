@@ -1,5 +1,6 @@
 <?php
 session_start();
+$error="";
 if (isset($_POST['next'])) {
     // code...
     foreach ($_POST as $key => $value) {
@@ -23,12 +24,13 @@ if (isset($_POST['next'])) {
             $_SESSION['motherId'] = 'files/birth/' . time() . $_FILES['motherId']['name'];
             move_uploaded_file($_FILES['motherId']['tmp_name'], "../" . $_SESSION['motherId']);
             // $_SESSION['motherId']=$motherId;
+            header('Location:birthRegistration3.php');
             
         }
     }
     
     
-    header('Location:birthRegistration3.php');
+   
 }
 
 ?>
@@ -51,7 +53,6 @@ if (isset($_POST['next'])) {
 
         <form action="" method="POST" enctype="multipart/form-data" class="row g-3 mt-3 ">
             <h4>Mothers Information</h4>
-            <?php print_r($_SESSION);?>
 
             <div class="col-lg-4 col-md-6 col-sm-12 input-group-lg">
                 <input type="text" name="MfirstName" placeholder="First Name" value="<?= isset($_SESSION['birthInfo']['MfirstName']) ? $_SESSION['birthInfo']['MfirstName'] : ''; ?>" class="form-control input-style" required>
@@ -181,7 +182,7 @@ if (isset($_POST['next'])) {
             <div class="col-lg-6 col-md-6 col-sm-12 input-group-lg ">
                 <label for="motherId"> Mother Identification Card</label>
                 <input type="file" name="motherId" id="motherId" accept=".jpeg,.png,.jpg,.pdf" class="form-control input-style" required>
-                <small class="form-text text-muted">Supported type (.jpeg .png .jpg .pdf)</small>
+                <small class="form-text text-muted">Supported type (.jpeg .png .jpg .pdf)<strong style="color:red"> <?php echo $error?></strong></small>
             </div>
 
             <div class="col-lg-4 col-md-6 col-sm-12 input-group-lg">

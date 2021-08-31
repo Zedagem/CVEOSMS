@@ -1,3 +1,18 @@
+<?php
+
+    include "../../dbconnection.php";
+    $employeeId = $_SESSION['EmployeeID'];
+    $sqll = "SELECT * FROM employee where EmployeeID = '$employeeId' ";
+    $stmtt = $pdo->prepare($sqll);
+    $stmtt->execute();
+    $roww = $stmtt->fetch();
+    $_SESSION['profile_pic'] = $roww['Photo'];
+
+unset($sqll);
+unset($stmtt);
+unset($roww);
+
+?>
 <div class="container-fluid">
     <div class="sidenav text-center">
         <div class="pt-3 pb-5">

@@ -8,133 +8,128 @@ session_start();
 require_once "dbconnection.php";
 
 // Define variables and initialize with empty values
-$phoneNumber = $password = $hash_password = $houseNumber = $dateOfBirth = $firstName = $middleName = $lastName = $email=$photo = "";
-$username_err = $duplicate_account="";
+$phoneNumber = $password = $hash_password = $houseNumber = $dateOfBirth = $firstName = $middleName = $lastName = $email = $photo = "";
+$username_err = $duplicate_account = "";
 
 // Processing form data when form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-    $phoneNumber = strtoupper(trim($_POST["phoneNumber"]));
-    $hash_password = password_hash(trim($_POST["password"]),PASSWORD_DEFAULT );
+    $phoneNumber = trim($_POST["phoneNumber"]);
+    $phoneNumber = $phoneNumber*1;
+    $hash_password = password_hash(trim($_POST["password"]), PASSWORD_DEFAULT);
     $houseNumber = strtoupper(trim($_POST["houseNumber"]));
     $dateOfBirth = strtoupper(trim($_POST["dateOfBirth"]));
     $firstName = strtoupper(trim($_POST["firstName"]));
     $middleName = strtoupper(trim($_POST["middleName"]));
     $lastName = strtoupper(trim($_POST["lastName"]));
     $email = trim($_POST["email"]);
-    $profile_photo = "";
-  //  $hash_password = password_hash($password, PASSWORD_DEFAULT);
 
-    
+    //  $hash_password = password_hash($password, PASSWORD_DEFAULT);
+
+
 
     // Prepare a select statement
     $sql = "SELECT fname, mname,lname,dobGC,houseNumber 
         FROM household 
-        WHERE fname = :firstName AND mname = :middleName AND lname = :lastName AND dobGC = :dateOfBirth AND houseNumber = :houseNumber";
+        WHERE fname = :firstName AND mname = :middleName AND lname = :lastName AND dobGC = :dateOfBirth AND houseNumber = :houseNumber AND phoneNumber= :phoneNumber" ;
 
-            $stmt = $pdo->prepare($sql);
-                // Bind variables to the prepared statement as parameters
-                $stmt->bindParam(":firstName", $firstName, PDO::PARAM_STR);
-                $stmt->bindParam(":middleName", $middleName, PDO::PARAM_STR);
-                $stmt->bindParam(":lastName", $lastName, PDO::PARAM_STR);
-                $stmt->bindParam(":dateOfBirth", $dateOfBirth, PDO::PARAM_STR);
-                $stmt->bindParam(":houseNumber", $houseNumber, PDO::PARAM_INT);
+    $stmt = $pdo->prepare($sql);
+    // Bind variables to the prepared statement as parameters
+    $stmt->bindParam(":firstName", $firstName, PDO::PARAM_STR);
+    $stmt->bindParam(":middleName", $middleName, PDO::PARAM_STR);
+    $stmt->bindParam(":lastName", $lastName, PDO::PARAM_STR);
+    $stmt->bindParam(":dateOfBirth", $dateOfBirth, PDO::PARAM_STR);
+    $stmt->bindParam(":houseNumber", $houseNumber, PDO::PARAM_INT);
+    $stmt->bindParam(":phoneNumber", $phoneNumber, PDO::PARAM_INT);
 
-                
 
-                // Attempt to execute the prepared statement
-                $stmt->execute();
-                    // Check if that user is in the household information table
-                    if ($stmt->rowCount() == 1) {
 
-                        $sql3 = "SELECT FirstName, MiddleName,LastName,DOB,Housenum 
+    // Attempt to execute the prepared statement
+    $stmt->execute();
+    // Check if that user is in the household information table
+    if ($stmt->rowCount() == 1) {
+
+        $sql3 = "SELECT FirstName, MiddleName,LastName,DOB,Housenum 
                         FROM resident 
                         WHERE FirstName = :firstName AND MiddleName = :middleName AND LastName = :lastName AND DOB = :dateOfBirth AND Housenum = :houseNumber";
-                    
-                        $stmt3 =$pdo->prepare($sql3);
-                        // binidng paramater
-                            $stmt3->bindParam(":firstName", $firstName, PDO::PARAM_STR);
-                            $stmt3->bindParam(":middleName", $middleName, PDO::PARAM_STR);
-                            $stmt3->bindParam(":lastName", $lastName, PDO::PARAM_STR);
-                            $stmt3->bindParam(":dateOfBirth", $dateOfBirth, PDO::PARAM_STR);
-                            $stmt3->bindParam(":houseNumber", $houseNumber, PDO::PARAM_INT);
 
-                            //execute
-                            $stmt3->execute();
-                    
+        $stmt3 = $pdo->prepare($sql3);
+        // binidng paramater
+        $stmt3->bindParam(":firstName", $firstName, PDO::PARAM_STR);
+        $stmt3->bindParam(":middleName", $middleName, PDO::PARAM_STR);
+        $stmt3->bindParam(":lastName", $lastName, PDO::PARAM_STR);
+        $stmt3->bindParam(":dateOfBirth", $dateOfBirth, PDO::PARAM_STR);
+        $stmt3->bindParam(":houseNumber", $houseNumber, PDO::PARAM_INT);
 
-                            if($stmt3->rowCount() == 1){
-                                $duplicate_account= "<p> You already have an account <a href='loginPage.php'> LogIn here </a> <p> ";
-                                }
+        //execute
+        $stmt3->execute();
 
-                                else{
 
-                                //Inset into resident table for sign up
+        if ($stmt3->rowCount() == 1) {
+            $duplicate_account = "<p> You already have an account <a href='loginPage.php'> LogIn here </a> <p> ";
+        } else {
 
-                                $sql2 = "INSERT INTO resident (Phone, Housenum,DOB,password,FirstName,MiddleName,LastName,email, Photo) 
-                                values (:phoneNumber,:houseNumber,:dateOfBirth,:secretKey,:firstName,:middleName,:lastName,:email,:profile_photo);";
-                            
-                                // Prepare stmt2
-                                $stmt2 = $pdo->prepare($sql2);
+            //Inset into resident table for sign up
 
-                                // Bind variables to the prepared statement as parameters
+            $sql2 = "INSERT INTO resident (Phone, Housenum,DOB,password,FirstName,MiddleName,LastName,email, Photo) 
+                                values (:phoneNumber,:houseNumber,:dateOfBirth,:secretKey,:firstName,:middleName,:lastName,:email,:profile_pic);";
 
-                                $stmt2->bindParam(":firstName", $firstName, PDO::PARAM_STR);
-                                $stmt2->bindParam(":middleName", $middleName, PDO::PARAM_STR);
-                                $stmt2->bindParam(":lastName", $lastName, PDO::PARAM_STR);
-                                $stmt2->bindParam(":dateOfBirth", $dateOfBirth, PDO::PARAM_STR);
-                                $stmt2->bindParam(":houseNumber", $houseNumber, PDO::PARAM_INT);
-                                $stmt2->bindParam(":secretKey", $hash_password, PDO::PARAM_STR);
-                                $stmt2->bindParam(":phoneNumber", $phoneNumber, PDO::PARAM_INT);
-                                $stmt2->bindParam(":email", $email, PDO::PARAM_STR);
-                                $stmt2->bindParam(":profile_photo", $profile_photo, PDO::PARAM_STR);
-                
-                                    //execute stmt2
-                                    $stmt2->execute();
-                                    
-                                    // fetch row for setting session 
-                                    $row = $stmt->fetch();
-                                        $firstName = $row["FirstName"];
-                                        $middleName = $row["MiddleName"];
-                                        $lastName = $row["LastName"];
-                                        $dateOfBirth = $row["DOB"];
-                                        $houseNumber = $row["Housenum"];
-                                        $email =$row["email"];
-                                        $phoneNumber=$row["phoneNumber"];
-                                        $profile_photo=$row["Photo"];
-                                        session_start();
-            
-                                        // Store data in session variables
-                                        $_SESSION["loggedin"] = true;
-                                        $_SESSION["FirstName"] = $firstName;
-                                        $_SESSION["MiddleName"] = $middleName;
-                                        $_SESSION["LastName"] = $lastName;
-                                        $_SESSION["DOB"] = $dateOfBirth;
-                                        $_SESSION["Housenum"] = $houseNumber;
-                                        $_SESSION["email"] = $email;
-                                        $_SESSION["phoneNumber"]=$phoneNumber;
-                                        $_SESSION["profile_photo"]=$profile_photo;
-            
-                                        // Redirect user to welcome page
-                                        header("location: user/userDashboard.php");
-                                
-                            
+            // Prepare stmt2
+            $stmt2 = $pdo->prepare($sql2);
 
-                        }
+            $_SESSION['profile_pic'] = 'files/resident/' . time() . $_FILES['profile_pic']['name'];
+            move_uploaded_file($_FILES['profile_pic']['tmp_name'], $_SESSION['profile_pic']);
 
-                        
-                    } else {
-                        // Display an error message if username doesn't exist
-                        $username_err= "<strong style='color:red'>Sorry your file is not the household you can't creat an account</strong>";
-                    }
-               
+            // Bind variables to the prepared statement as parameters
 
-                // Close statement
-                unset($stmt);
-                unset($stmt2);
-                unset($stmt3);
+            $stmt2->bindParam(":firstName", $firstName, PDO::PARAM_STR);
+            $stmt2->bindParam(":middleName", $middleName, PDO::PARAM_STR);
+            $stmt2->bindParam(":lastName", $lastName, PDO::PARAM_STR);
+            $stmt2->bindParam(":dateOfBirth", $dateOfBirth, PDO::PARAM_STR);
+            $stmt2->bindParam(":houseNumber", $houseNumber, PDO::PARAM_INT);
+            $stmt2->bindParam(":secretKey", $hash_password, PDO::PARAM_STR);
+            $stmt2->bindParam(":phoneNumber", $phoneNumber, PDO::PARAM_INT);
+            $stmt2->bindParam(":email", $email, PDO::PARAM_STR);
+            $stmt2->bindParam(":profile_pic", $_SESSION['profile_pic'], PDO::PARAM_STR);
 
-            
+            //execute stmt2
+            $stmt2->execute();
+
+            // fetch row for setting session 
+            // $row = $stmt->fetch();
+            // $firstName = $row["FirstName"];
+            // $middleName = $row["MiddleName"];
+            // $lastName = $row["LastName"];
+            // $dateOfBirth = $row["DOB"];
+            // $houseNumber = $row["Housenum"];
+            // $email = $row["email"];
+            // $phoneNumber = $row["phoneNumber"];
+            // $profile_photo = $row["Photo"];
+
+            // Store data in session variables
+            $_SESSION["loggedin"] = true;
+            $_SESSION["FirstName"] = $firstName;
+            $_SESSION["MiddleName"] = $middleName;
+            $_SESSION["LastName"] = $lastName;
+            $_SESSION["DOB"] = $dateOfBirth;
+            $_SESSION["Housenum"] = $houseNumber;
+            $_SESSION["email"] = $email;
+            $_SESSION["phoneNumber"] = $phoneNumber;
+            //$_SESSION["profile_photo"] =  $_SESSION["profile_photo"];
+
+            // Redirect user to welcome page
+            header("location: user/userDashboard.php");
+        }
+    } else {
+        // Display an error message if username doesn't exist
+        $username_err = "<strong style='color:red'>Sorry your file is not the household you can't creat an account</strong>";
+    }
+
+
+    // Close statement
+    unset($stmt);
+    unset($stmt2);
+    unset($stmt3);
 }
 
 
@@ -185,6 +180,18 @@ unset($pdo);
         margin-bottom: 10px;
         font-size: 1.5vw;
     }
+
+    /* #profile{
+        width: 30vw;
+        height: 3.5vw;
+        background-color: #C4E8F1;
+        border-color: #662D8D;
+        border-radius: 12px;
+        color: black;
+        padding: 10px;
+        margin-bottom: 10px;
+        font-size: 1.5vw;
+    } */
 </style>
 
 
@@ -199,7 +206,7 @@ unset($pdo);
 
 
                 <div class=" m-5 text-center">
-                    <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
+                    <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST" enctype="multipart/form-data">
 
                         <h1 class="mb-4">SIGN UP </h1>
 
@@ -229,26 +236,28 @@ unset($pdo);
                         <div class="form-floating form-group mb-3">
                             <input type="password" name="password" placeholder="Password" required>
                         </div>
-                        <div class="form-floating form-group mb-3">
-                            <label for="profile">Profile Picture</label>
-                            <input type="file" name="profile_pic" id="profile" >
+                
+                        <div class=" input-group-lg ">
+                            <label for="profile"> Profile Picture</label>
+                            <input type="file" name="profile_pic" id="profile" accept=".jpeg,.png,.jpg,.pdf" class="form-control input-style" required>
+                            <small class="form-text text-muted">Supported type (.jpeg .png .jpg)</small>
                         </div>
 
 
-                        <div class="form-floating form-group">
+                        <div class="form-floating form-group mt-5">
                             <input class="btn" type="submit" name="submit" value="SIGN UP">
 
                         </div>
-                      
+
                         <div class="mt-3">
-                            <?php 
+                            <?php
                             echo $duplicate_account;
                             echo $username_err;
-                            
+
                             ?>
                         </div>
 
-                      
+
 
 
 

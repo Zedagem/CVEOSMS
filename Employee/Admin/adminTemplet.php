@@ -1,3 +1,18 @@
+<?php
+
+    include "../../dbconnection.php";
+    $employeeId = $_SESSION['EmployeeID'];
+    $sqll = "SELECT * FROM employee where EmployeeID = '$employeeId' ";
+    $stmtt = $pdo->prepare($sqll);
+    $stmtt->execute();
+    $roww = $stmtt->fetch();
+    $_SESSION['profile_pic'] = $roww['Photo'];
+
+unset($sqll);
+unset($stmtt);
+unset($roww);
+
+?>
 <div class="container-fluid"> 
     <div class="sidenav text-center">
             <div class="pt-3 pb-5"> 
@@ -6,7 +21,7 @@
 
             <div>
                 <ul>
-                    <li class="mb-4"><img class="rounded-circle"  src="../../img/profile.png" alt="profile picture" width="100vw" height="100vw"></li>
+                    <li class="mb-4"><img class="rounded-circle"  src="<?php echo "http://localhost:8080/". $_SESSION['profile_pic'];?>" alt="profile picture" width="100vw" height="100vw"></li>
                     <li><?php echo $_SESSION["EmployeeID"]?></li>
                     <li><?php echo $_SESSION["firstName"]." " .$_SESSION["middleName"]?></li>
                     <li><?php echo $_SESSION["email"]?></li>

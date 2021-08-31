@@ -1,5 +1,5 @@
 <?php
-include "../../dbconnection.php"; 
+require_once "../../dbconnection.php"; 
 $sch = $_POST['schedule'];
 $id= $_POST['id'];
 $phone = $_POST['phone'];

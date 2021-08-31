@@ -40,8 +40,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $mothername = strtoupper(trim($_POST["mothername"]));
     $motherLastName = strtoupper(trim($_POST["motherLastName"]));
     $email = (trim($_POST["email"]));
-    $photo = (trim($_POST["photo"]));
-    $titleCert = (trim($_POST["titleCert"]));
+   
 
     // select statement for cross checking 
     $sql2 = "SELECT * from household WHERE phoneNumber = :phoneNumber ";
@@ -67,13 +66,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         // Bind variables to the prepared statement as parameters
 
+        $_SESSION['photo'] = 'files/household/' . time() . $_FILES['photo']['name'];
+        move_uploaded_file($_FILES['photo']['tmp_name'], "../../" . $_SESSION['photo']);
+
+
+        $_SESSION['titleCert'] = 'files/household/' . time() . $_FILES['titleCert']['name'];
+        move_uploaded_file($_FILES['titleCert']['tmp_name'], "../../" . $_SESSION['titleCert']);
+
         $stmt->bindParam(":houseNumber", $houseNumber, PDO::PARAM_INT);
         $stmt->bindParam(":phoneNumber", $phoneNumber, PDO::PARAM_INT);
         $stmt->bindParam(":dobEC", $dobEC, PDO::PARAM_STR);
         $stmt->bindParam(":dobGC", $dobGC, PDO::PARAM_STR);
         $stmt->bindParam(":gender", $gender, PDO::PARAM_STR);
-        $stmt->bindParam(":photo", $photo, PDO::PARAM_STR);
-        $stmt->bindParam(":titleCert", $titleCert, PDO::PARAM_STR);
+        $stmt->bindParam(":photo", $_SESSION['photo'], PDO::PARAM_STR);
+        $stmt->bindParam(":titleCert", $_SESSION['titleCert'], PDO::PARAM_STR);
         $stmt->bindParam(":fname", $fname, PDO::PARAM_STR);
         $stmt->bindParam(":mname", $mname, PDO::PARAM_STR);
         $stmt->bindParam(":lname", $lname, PDO::PARAM_STR);
@@ -108,7 +114,7 @@ unset($pdo);
     <?php include 'clerkTemplet.php' ?>
     <h2 class="mt-5 text-center">Creating a New HouseHold Information </h2>
     <div class="container-fluid">
-        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST" class="row g-3 mt-5">
+        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST" enctype="multipart/form-data" class="row g-3 mt-5">
 
             <p>Resoponsible Person</p>
             <div class="col-lg-4 col-md-6 col-sm-12 input-group-lg">

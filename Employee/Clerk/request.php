@@ -28,7 +28,6 @@ try {
 <body>
     <?php include 'clerkTemplet.php' ?>
     <h2 class="mt-5 text-center">Clerk Request Page </h2>
-    <div class="container">
         <table class="table mt-5 ">
             <thead class="thead-dark">
                 <tr>
@@ -37,7 +36,6 @@ try {
                     <th>Request Date</th>
                     <th>View Full Informaiton</th>
                     <th>Hospital Certificate</th>
-                    <th>Vaccine Card</th>
                     <th>Child Photo</th>
                     <th>Mother ID</th>
                     <th>Father ID</th>
@@ -58,7 +56,6 @@ try {
                         <td><?php echo $row['appliedDate'] ?> </td>
                         <td> <a target="_blank" href="viewInformation.php?id=<?php echo $row['id']; ?>">View</a>
                         <td> <a target="_blank" href="<?php echo 'http://localhost:8080/' . $row['hospitalBirthCert'] ?>">View</a>
-                        <td> <a target="_blank" href="<?php echo 'http://localhost:8080/' . $row['yellowCard'] ?>">View</a></td>
                         <td> <a target="_blank" href="<?php echo 'http://localhost:8080/' . $row['childPhoto'] ?>">View</a></td>
                         <td> <a target="_blank" href="<?php echo 'http://localhost:8080/' . $row['motherId'] ?>">View</a>
                         <td> <a target="_blank" href="<?php echo 'http://localhost:8080/' . $row['fatherId'] ?>">View</a></td>
@@ -83,8 +80,7 @@ try {
 
 
 
-    </div>
-
+    
 
 
     </div>

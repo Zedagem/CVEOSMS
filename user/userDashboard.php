@@ -8,6 +8,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
     
 }
 ?>
+
 <?php include '../header.php'?>
 
 <link rel="stylesheet" type="text/css" href="../css/style.css">
@@ -24,6 +25,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
     <h2> WELCOME  <?php echo $_SESSION["FirstName"] . " ". $_SESSION["MiddleName"]. " ". $_SESSION["LastName"] ?></h2>
 </div>
 
+
 </div >
 <div class="container-fluid text-center">
 <div class="row">
@@ -34,6 +36,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
             <img src="../Icons/baby.svg" alt="baby svg file">
         </div>
         <h3>Birth Registration & Certification</h3>
+       
         <p>This is a vital record that documents the birth of a person. You can fill out a form to register the birth and obtain a certification for it.     </p>
     </button>
 </div>
@@ -73,7 +76,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
             <img src="../Icons/tombStone.svg" alt="Tomb Stone svg file">
         </div>
         <h3>Death Registration & Certification</h3>
-        <p> This is a legal document issued by a the government civil registration office. Applying to this you can obtain a death certification and registrar your dead ones.</p>
+        <p> This is a legal document issued by a the government civil registration office. Applying to this you can obtain a death certification and registrar your dead</p>
 </button>
 </div>
 

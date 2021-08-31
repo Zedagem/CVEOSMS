@@ -1,6 +1,6 @@
 <?php
 
-include "../../dbconnection.php"; // Using database connection file here
+require_once "../../dbconnection.php"; // Using database connection file here
 
 $id = $_GET['id']; // get id through query string
 

@@ -146,7 +146,7 @@ unset($pdo);
 
                                 <div > 
                                     <input class = "btn"type="submit" name="submit" value="SIGN IN">
-                                    <p class="mt-3">Don't have an account? <a href='signupPage.php'> Sinup</a></p>
+                                    <p class="mt-3">Don't have an account? <a href='signupPage.php'> SignUp</a></p>
                                 </div>
                            
                             

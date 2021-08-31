@@ -1,7 +1,7 @@
 <?php
 session_start();
 $error = "";
-$childPhoto = $yellowCard = $hospitalBirthCert = "";
+$childPhoto =  $hospitalBirthCert = "";
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
     if (isset($_POST['next'])) {
@@ -15,33 +15,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // code...
             unset($_SESSION['birthInfo']['next']);
         }
-        if (empty($_FILES['yellowCard']['name']) && empty($_FILES['childPhoto']['name'])) {
+        if (empty($_FILES['hospitalBirthCert']['name']) && empty($_FILES['childPhoto']['name'])) {
             $error = 'This field is required.';
         } else {
 
             if ($_FILES['childPhoto']['size'] > 2097152) {
                 $error = 'File should not be more than 2MB.';
-            } elseif ($_FILES['yellowCard']['size'] > 2097152) {
-                $error = 'File should not be more than 2MB.';
             } elseif ($_FILES['hospitalBirthCert']['size'] > 2097152) {
                 $error = 'File should not be more than 2MB.';
             } else {
-                echo "<script> alert('post is')</script>";
+              
                 $_SESSION['childPhoto'] = 'files/birth/' . time() . $_FILES['childPhoto']['name'];
                 move_uploaded_file($_FILES['childPhoto']['tmp_name'], "../" . $_SESSION['childPhoto']);
-
-
-                $_SESSION['yellowCard'] = 'files/birth/' . time() . $_FILES['yellowCard']['name'];
-                move_uploaded_file($_FILES['yellowCard']['tmp_name'], "../" . $_SESSION['yellowCard']);
 
                 $_SESSION['hospitalBirthCert'] = 'files/birth/' . time() . $_FILES['hospitalBirthCert']['name'];
                 move_uploaded_file($_FILES['hospitalBirthCert']['tmp_name'], "../" . $_SESSION['hospitalBirthCert']);
 
-              
-
-                // $_SESSION['childPhoto'] = $childPhoto;
-                // $_SESSION['yellowCard'] = $yellowCard;
-                // $_SESSION['hospitalBirthCert'] =$hospitalBirthCert;
                 header('Location:birthRegistration2.php');
 
             }
@@ -166,17 +155,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </select>
             </div>
             <div class="col-lg-4 col-md-6 col-sm-12 input-group-lg ">
-                <label for="hospitalBirthCert"> Hospital Birth Certificate</label>
+                <label for="hospitalBirthCert"> Hospital Birth Certificate / Vaccine paper</label>
                 <input type="file" name="hospitalBirthCert" id="hospitalBirthCert" accept=".jpeg,.png,.jpg,.pdf" class="form-control input-style" required>
                 <small class="form-text text-muted">Supported type (.jpeg .png .jpg .pdf)</small>
                 <?php echo $error; ?>
             </div>
 
             <div class="col-lg-4 col-md-6 col-sm-12 input-group-lg ">
-                <label for="yellowCard"> Vaccine Yellow Card</label>
-                <input type="file" name="yellowCard" id="yellowCard" accept=".jpeg,.png,.jpg,.pdf" class="form-control input-style" required>
-                <small class="form-text text-muted">Supported type (.jpeg .png .jpg .pdf)</small>
+                
             </div>
+
             <div class="col-lg-4 col-md-6 col-sm-12 input-group-lg ">
                 <label for="childPhoto"> Child Photograph</label>
                 <input type="file" name="childPhoto" id="childPhoto" accept=".jpeg,.png,.jpg" class="form-control input-style" required>

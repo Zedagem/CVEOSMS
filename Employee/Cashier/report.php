@@ -9,9 +9,10 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
 }
 ?>
 <?php
+$report = "report";
 try {
     require_once "../../dbconnection.php";
-    $sql = "SELECT * From report"; 
+    $sql = "SELECT * From $report"; 
     $stmt = $pdo->prepare($sql);
     $stmt->execute();
 } catch (PDOException $e) {

@@ -56,19 +56,19 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
                     $error = 'This field is required.';
             }
             else{
-                    $file_ext=strtolower(end(explode('.',$_FILES['photoUpload']['name'])));
+                    // $file_ext=strtolower(end(explode('.',$_FILES['photoUpload']['name'])));
                     
-                    if(!in_array($file_ext,array('jpeg','gif','png','jpg','pdf'))){
-                            $error = 'JPG, JPEG, PNG and GIF are only supported.';
-                        }
-                    elseif($_FILES['photoUpload']['size']>2097152){
+                    // if(!in_array($file_ext,array('jpeg','png','jpg'))){
+                    //         $error = 'JPG, JPEG, PNG and GIF are only supported.';
+                    //     }
+                    if($_FILES['photoUpload']['size']>2097152){
                             $error = 'File should not be more than 2MB.';
                         }
                     else{
                         //time() is added below to make the filename unique
                         //change the folder directory according to your directory organization
-                        $newFileName = '/CVEOSMS/employee/profile/'.time().$_FILES['photoUpload']['name'];
-                        move_uploaded_file($files['photoUpload']['tmp_name'],$newFileName);
+                        $newFileName = 'files/employee/'.time().$_FILES['photoUpload']['name'];
+                        move_uploaded_file($_FILES['photoUpload']['tmp_name'],"../../".$newFileName);
                         //file uploaded
                         //panda you will just store the $newFileName to the database and when you retrieve you will put this filename in the <img src="fileNameFromDatabase"> to display
 
@@ -156,12 +156,12 @@ EOF;
 </head>
 
 <body>
-  
+
     
     <h2 class="mt-5 text-center">Create Employee Account </h2>
 
     <div class="container-fluid">
-    <form action=" <?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="POST" class="row g-3 mt-3 ">
+    <form action=" <?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="POST" enctype="multipart/form-data" class="row g-3 mt-3 ">
             <h4>Personal Information</h4>
 
             <div class="col-lg-4 col-md-6 col-sm-12 input-group-lg">
@@ -202,10 +202,7 @@ EOF;
                 <option value="Cashier">Cashier</option>
                 <option value="Manager">Manager</option>
             </select>
- <?php  
- 
- 
- ?>
+
     </div>
 
             <div class="col-lg-6 col-md-6 col-sm-12 input-group-lg">
@@ -214,7 +211,7 @@ EOF;
             </div>
             <div class="col-lg-6 col-md-6 col-sm-12 input-group-lg">
                 <label for="photoUpload" class="form-label">Photograph</label>
-                <input type="file" name="photoUpload" id="photoUpload" class="form-control input-style" required>
+                <input type="file" name="photoUpload" accept=".jpeg,.png,.jpg" id="photoUpload" class="form-control input-style" required>
             </div>  
             <div class="col-lg-2 col-md-2 col-sm-4 input-group-lg">
             <input type="submit" value="Create" name="submit" class="form-control btn btn-primary ">
@@ -223,3 +220,4 @@ EOF;
     
 </body>
 </html>
+

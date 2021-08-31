@@ -1,5 +1,6 @@
 <?php
 session_start();
+$error = "";
 if (isset($_POST['next'])) {
     // code...
     foreach ($_POST as $key => $value) {
@@ -23,12 +24,13 @@ if (isset($_POST['next'])) {
             $_SESSION['fatherId'] = 'files/birth/' . time() . $_FILES['fatherId']['name'];
             move_uploaded_file($_FILES['fatherId']['tmp_name'], "../" .  $_SESSION['fatherId']);
            // $_SESSION['fatherId']=$fatherId;
+           header('Location:displayPage.php');
             
         }
     }
     
     
-    header('Location:displayPage.php');
+   
 }
 
 ?>
@@ -181,7 +183,7 @@ if (isset($_POST['next'])) {
             <div class="col-lg-6 col-md-6 col-sm-12 input-group-lg " >
                 <label for="fatherId"> Father Identification Card</label>
                 <input type="file" name="fatherId" accept=".jpeg,.png,.jpg,.pdf" id="fatherId" class="form-control input-style" required>
-                <small class="form-text text-muted">Supported type (.jpeg .png .jpg .pdf)</small>
+                <small class="form-text text-muted">Supported type (.jpeg .png .jpg .pdf) <strong style="color:red"> <?php echo $error?></strong></small>
             </div>
 
             <div class="col-lg-4 col-md-6 col-sm-12 input-group-lg">
