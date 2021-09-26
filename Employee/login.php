@@ -50,13 +50,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 $cut = substr($id, 0, -6);
                 if ($cut == "adm") {
-                    header("location: http://localhost/Employee/Admin/adminAddEmployee.php");
+                    header("location: http://localhost:8080:8080/Employee/Admin/adminAddEmployee.php");
                 } elseif ($cut == "cas") {
-                    header("location: http://localhost/Employee/Cashier/pendingPayment.php");
+                    header("location: http://localhost:8080/Employee/Cashier/pendingPayment.php");
                 } elseif ($cut == "cle") {
-                    header("location: http://localhost/Employee/Clerk/request.php");
+                    header("location: http://localhost:8080/Employee/Clerk/request.php");
                 } elseif ($cut == "man") {
-                    header("location: http://localhost/Employee/Manager/signOff.php");
+                    header("location: http://localhost:8080/Employee/Manager/signOff.php");
                 }
             } else {
                 $username_err = "<strong style='color:red'> ID or Password error ! </strong>";

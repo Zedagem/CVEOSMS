@@ -10,7 +10,7 @@ $cut = substr($id, 0, -6);
 // Check if the user is logged in, if not then redirect him to login page
 if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true  || strcmp($cut, 'cle') != 0) {
 
-	header("location: http://localhost/Employee/login.php");
+	header("location: http://localhost:8080/Employee/login.php");
 	exit;
 }
 ?>
@@ -652,7 +652,7 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true  || strcmp($
 
 			</div>
 			<div style="position: absolute; left: 0; top:20px; margin-left:30px ;">
-				<img src="<?php echo 'http://localhost/' . $row['childPhoto']; ?>" alt="child photo" width="120px" height="120px">
+				<img src="<?php echo 'http://localhost:8080/' . $row['childPhoto']; ?>" alt="child photo" width="120px" height="120px">
 			</div>
 
 			<div class="container-fluid">
@@ -801,7 +801,7 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true  || strcmp($
 
 			</div>
 			<div style="position: absolute; left: 0; top:20px; margin-left:30px ;">
-				<img src="<?php echo 'http://localhost/' . $row['photo']; ?>" alt="deceased photo" width="120px" height="120px">
+				<img src="<?php echo 'http://localhost:8080/' . $row['photo']; ?>" alt="deceased photo" width="120px" height="120px">
 			</div>
 
 			<div class="container-fluid">
@@ -919,13 +919,13 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true  || strcmp($
 			<div style="position: absolute; left: 30px; top:20px; margin-right:30px ;">
 				<p>Issued Date <span><?php echo $currentDate; ?></span></p>
 				<div style="position: relative; left: 0; top:20px; margin-left:25px ;">
-					<img src="<?php echo 'http://localhost/' . $row['wifePhoto']; ?>" alt="child photo" width="120px" height="120px">
+					<img src="<?php echo 'http://localhost:8080/' . $row['wifePhoto']; ?>" alt="child photo" width="120px" height="120px">
 				</div>
 			</div>
 			<div style="position: absolute; right: 0; top:20px; margin-right:30px ;">
 				<p> Unique ID Number <span><?php echo $id; ?></span></p>
 				<div style="position: relative; right: 0; top:20px; margin-left:30px ;">
-					<img src="<?php echo 'http://localhost/' . $row['husbandPhoto']; ?>" width="120px" height="120px">
+					<img src="<?php echo 'http://localhost:8080/' . $row['husbandPhoto']; ?>" width="120px" height="120px">
 				</div>
 			</div>
 
@@ -1048,13 +1048,13 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true  || strcmp($
 			<div style="position: absolute; left: 30px; top:20px; margin-right:30px ;">
 				<p>Issued Date <span><?php echo $currentDate; ?></span></p>
 				<div style="position: relative; left: 0; top:20px; margin-left:25px ;">
-					<img src="<?php echo 'http://localhost/' . $row['wifePhoto']; ?>" alt="child photo" width="120px" height="120px">
+					<img src="<?php echo 'http://localhost:8080/' . $row['wifePhoto']; ?>" alt="child photo" width="120px" height="120px">
 				</div>
 			</div>
 			<div style="position: absolute; right: 0; top:20px; margin-right:30px ;">
 				<p> Unique ID Number <span><?php echo $id; ?></span></p>
 				<div style="position: relative; right: 0; top:20px; margin-left:30px ;">
-					<img src="<?php echo 'http://localhost/' . $row['husbandPhoto']; ?>" width="120px" height="120px">
+					<img src="<?php echo 'http://localhost:8080/' . $row['husbandPhoto']; ?>" width="120px" height="120px">
 				</div>
 			</div>
 
@@ -1237,7 +1237,7 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true  || strcmp($
 				<div id="DOB_GC">
 					<span>DOB GC</span>
 				</div>
-				<img id="Rectangle_2" src="<?php echo 'http://localhost/' . $row['photo']; ?>">
+				<img id="Rectangle_2" src="<?php echo 'http://localhost:8080/' . $row['photo']; ?>">
 
 				<svg class="Rectangle_1_">
 					<rect id="Rectangle_1_" rx="0" ry="0" x="0" y="0" width="636" height="299">

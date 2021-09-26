@@ -10,7 +10,7 @@ $cut = substr($id, 0, -6);
 // Check if the user is logged in, if not then redirect him to login page
 if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true  || strcmp($cut,'cle') != 0) {
   
-    header("location: http://localhost/Employee/login.php");
+    header("location: http://localhost:8080/Employee/login.php");
     exit;
 
 }
@@ -45,7 +45,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $gender = strtoupper(trim($_POST["gender"]));
     $fname = strtoupper(trim($_POST["fname"]));
     $mname = strtoupper(trim($_POST["mname"]));
-    $lname = trim($_POST["lname"]);
+    $lname = strtoupper(trim($_POST["lname"]));
     $fnameA = trim($_POST["fnameA"]);
     $mnameA = trim($_POST["mnameA"]);
     $lnameA = trim($_POST["lnameA"]);

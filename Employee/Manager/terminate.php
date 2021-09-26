@@ -10,7 +10,7 @@ $cut = substr($id, 0, -6);
 // Check if the user is logged in, if not then redirect him to login page
 if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true  || strcmp($cut, 'man') != 0) {
 
-    header("location: http://localhost/Employee/login.php");
+    header("location: http://localhost:8080/Employee/login.php");
     exit;
 }
 ?>

@@ -34,7 +34,7 @@ else{
 
             <div>
                 <ul>
-                    <li class="mb-4"><img class="rounded-circle"  src="<?php echo "http://localhost/". $_SESSION['profile_pic'];?>" alt="profile picture" width="100vw" height="100vw"></li>
+                    <li class="mb-4"><img class="rounded-circle"  src="<?php echo "http://localhost:8080/". $_SESSION['profile_pic'];?>" alt="profile picture" width="100vw" height="100vw"></li>
                     <li><?php echo $_SESSION["FirstName"] . " " .$_SESSION["MiddleName"] ?></li>
                     <li><?php echo $_SESSION["email"] ?></li>
                     <li><?php echo "+251".$_SESSION["phoneNumber"] ?></li>

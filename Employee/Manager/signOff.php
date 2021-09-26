@@ -10,7 +10,7 @@ $cut = substr($id, 0, -6);
 // Check if the user is logged in, if not then redirect him to login page
 if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true  || strcmp($cut,'man') != 0) {
   
-    header("location: http://localhost/Employee/login.php");
+    header("location: http://localhost:8080/Employee/login.php");
     exit;
 
 }
@@ -79,7 +79,7 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true  || strcmp($
                     Hospital Certificate
                 </div>
                 <div class="col">
-                <a target="_blank" href="<?php echo 'http://localhost/' . $brow['hospitalBirthCert'] ?>">View</a>
+                <a target="_blank" href="<?php echo 'http://localhost:8080/' . $brow['hospitalBirthCert'] ?>">View</a>
                 </div>
             </div>
             <div class="row pb-3">
@@ -94,7 +94,7 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true  || strcmp($
                 Child Photo
                 </div>
                 <div class="col">
-                <a target="_blank" href="<?php echo 'http://localhost/' . $brow['childPhoto'] ?>"> View </a>
+                <a target="_blank" href="<?php echo 'http://localhost:8080/' . $brow['childPhoto'] ?>"> View </a>
                 </div>
             </div>
             <div class="row pb-3">
@@ -109,7 +109,7 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true  || strcmp($
                     Mother ID
                 </div>
                 <div class="col">
-                <a target="_blank" href="<?php echo 'http://localhost/' . $brow['motherId'] ?>">View</a>
+                <a target="_blank" href="<?php echo 'http://localhost:8080/' . $brow['motherId'] ?>">View</a>
                 </div>
             </div>
             <div class="row pb-3">
@@ -124,7 +124,7 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true  || strcmp($
                     Father ID
                 </div>
                 <div class="col">
-                <a target="_blank" href="<?php echo 'http://localhost/' . $brow['fatherId'] ?>">View</a></td>
+                <a target="_blank" href="<?php echo 'http://localhost:8080/' . $brow['fatherId'] ?>">View</a></td>
                 </div>
             </div>
             <div class="row pb-3">
@@ -183,7 +183,7 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true  || strcmp($
                      Photograph
                   </div>
                   <div class="col">
-                  <a target="_blank" href="<?php echo 'http://localhost/' . $drow['photo'] ?>">View</a>
+                  <a target="_blank" href="<?php echo 'http://localhost:8080/' . $drow['photo'] ?>">View</a>
                   </div>
               </div>
               <div class="row pb-3">
@@ -198,7 +198,7 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true  || strcmp($
                      Certificate From Institution
                   </div>
                   <div class="col">
-                  <a target="_blank" href="<?php echo 'http://localhost/' . $drow['certFromInst'] ?>">View</a>
+                  <a target="_blank" href="<?php echo 'http://localhost:8080/' . $drow['certFromInst'] ?>">View</a>
                   </div>
               </div>
              
@@ -256,7 +256,7 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true  || strcmp($
                        Husband ID
                      </div>
                      <div class="col">
-                     <a target="_blank" href="<?php echo 'http://localhost/' . $dirow['husbandIdPhoto'] ?>">View</a>
+                     <a target="_blank" href="<?php echo 'http://localhost:8080/' . $dirow['husbandIdPhoto'] ?>">View</a>
                      </div>
                  </div>
                  <div class="row pb-3">
@@ -271,7 +271,7 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true  || strcmp($
                        Husband Photo
                      </div>
                      <div class="col">
-                     <a target="_blank" href="<?php echo 'http://localhost/' . $dirow['husbandPhoto'] ?>">View</a>
+                     <a target="_blank" href="<?php echo 'http://localhost:8080/' . $dirow['husbandPhoto'] ?>">View</a>
                      </div>
                  </div>
                  <div class="row pb-3">
@@ -286,7 +286,7 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true  || strcmp($
                        Wife ID
                      </div>
                      <div class="col">
-                     <a target="_blank" href="<?php echo 'http://localhost/' . $dirow['wifeIdPhoto'] ?>">View</a>
+                     <a target="_blank" href="<?php echo 'http://localhost:8080/' . $dirow['wifeIdPhoto'] ?>">View</a>
                      </div>
                  </div>
                  <div class="row pb-3">
@@ -301,7 +301,7 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true  || strcmp($
                        Wife Photo
                      </div>
                      <div class="col">
-                     <a target="_blank" href="<?php echo 'http://localhost/' . $dirow['wifePhoto'] ?>">View</a>
+                     <a target="_blank" href="<?php echo 'http://localhost:8080/' . $dirow['wifePhoto'] ?>">View</a>
                      </div>
                  </div>
                  <div class="row pb-3">
@@ -316,7 +316,7 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true  || strcmp($
                        Court Issued Certificate 
                      </div>
                      <div class="col">
-                     <a target="_blank" href="<?php echo 'http://localhost/' . $dirow['courtCert'] ?>">View</a>
+                     <a target="_blank" href="<?php echo 'http://localhost:8080/' . $dirow['courtCert'] ?>">View</a>
                      </div>
                  </div>
                  <div class="row pb-3">
@@ -376,7 +376,7 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true  || strcmp($
                   Husband ID
                 </div>
                 <div class="col">
-                <a target="_blank" href="<?php echo 'http://localhost/' . $mrow['husbandIdPhoto'] ?>">View</a>
+                <a target="_blank" href="<?php echo 'http://localhost:8080/' . $mrow['husbandIdPhoto'] ?>">View</a>
                 </div>
             </div>
             <div class="row pb-3">
@@ -391,7 +391,7 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true  || strcmp($
                   Husband Photo
                 </div>
                 <div class="col">
-                <a target="_blank" href="<?php echo 'http://localhost/' . $mrow['husbandPhoto'] ?>">View</a>
+                <a target="_blank" href="<?php echo 'http://localhost:8080/' . $mrow['husbandPhoto'] ?>">View</a>
                 </div>
             </div>
             <div class="row pb-3">
@@ -406,7 +406,7 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true  || strcmp($
                   Wife ID
                 </div>
                 <div class="col">
-                <a target="_blank" href="<?php echo 'http://localhost/' . $mrow['wifeIdPhoto'] ?>">View</a>
+                <a target="_blank" href="<?php echo 'http://localhost:8080/' . $mrow['wifeIdPhoto'] ?>">View</a>
                 </div>
             </div>
             <div class="row pb-3">
@@ -421,7 +421,7 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true  || strcmp($
                   Wife Photo
                 </div>
                 <div class="col">
-                <a target="_blank" href="<?php echo 'http://localhost/' . $mrow['wifePhoto'] ?>">View</a>
+                <a target="_blank" href="<?php echo 'http://localhost:8080/' . $mrow['wifePhoto'] ?>">View</a>
                 </div>
             </div>
             <div class="row pb-3">
@@ -436,7 +436,7 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true  || strcmp($
                   Certificate From the Institution 
                 </div>
                 <div class="col">
-                <a target="_blank" href="<?php echo 'http://localhost/' . $mrow['certificatefrominstitution'] ?>">View</a>
+                <a target="_blank" href="<?php echo 'http://localhost:8080/' . $mrow['certificatefrominstitution'] ?>">View</a>
                 </div>
             </div>
             <div class="row pb-3">
@@ -495,7 +495,7 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true  || strcmp($
                 Police Report
                 </div>
                 <div class="col">
-                <a target="_blank" href="<?php echo 'http://localhost/' . $clrow['policeReport'] ?>">View</a>
+                <a target="_blank" href="<?php echo 'http://localhost:8080/' . $clrow['policeReport'] ?>">View</a>
                 </div>
             </div>
             <div class="row pb-3">
@@ -510,7 +510,7 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true  || strcmp($
                   Photograph
                 </div>
                 <div class="col">
-                <a target="_blank" href="<?php echo 'http://localhost/' . $clrow['photo'] ?>">View</a>
+                <a target="_blank" href="<?php echo 'http://localhost:8080/' . $clrow['photo'] ?>">View</a>
                 </div>
             </div>
            
@@ -572,7 +572,7 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true  || strcmp($
                 Blood Group Certificate
                 </div>
                 <div class="col">
-                <a target="_blank" href="<?php echo 'http://localhost/' . $crow['Blood_Group_Certification'] ?>">View</a>
+                <a target="_blank" href="<?php echo 'http://localhost:8080/' . $crow['Blood_Group_Certification'] ?>">View</a>
                 </div>
             </div>
             <div class="row pb-3">
@@ -587,7 +587,7 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true  || strcmp($
                   Photograph
                 </div>
                 <div class="col">
-                <a target="_blank" href="<?php echo 'http://localhost/' . $crow['photo'] ?>">View</a>
+                <a target="_blank" href="<?php echo 'http://localhost:8080/' . $crow['photo'] ?>">View</a>
                 </div>
             </div>
            

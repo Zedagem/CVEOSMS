@@ -34,7 +34,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
     ?>
 
     <div class="text-center mt-5" >
-        <img class="rounded-circle"  src="<?php echo "http://localhost/". $_SESSION['profile_pic'];?>" alt="profile picture" width="200vw" height="200vw">
+        <img class="rounded-circle"  src="<?php echo "http://localhost:8080/". $_SESSION['profile_pic'];?>" alt="profile picture" width="200vw" height="200vw">
         <h4 class="mt-4"> <?php echo $_SESSION["FirstName"] . " " .$_SESSION["MiddleName"] ." ". $_SESSION["LastName"]?></h4>    
     </div>
     <div>
