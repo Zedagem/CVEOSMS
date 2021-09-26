@@ -1,5 +1,12 @@
+
 <?php
 session_start();
+
+//Check if the user is logged in, if not then redirect him to login page
+if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
+    header("location: ../loginPage.php");
+}
+
 $error = "";
 $childPhoto =  $hospitalBirthCert = "";
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -55,27 +62,27 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     <div class="container-fluid">
 
-        <div class="row text-center mt-5">
+        <!-- <div class="row text-center mt-5">
             <div class="col-lg-6 col-md-6 ">
                 <a class="nav-active" href="birthRegistration.php"> New Application</a>
             </div>
             <div class="col-lg-6"> <a href="lost.php"> Lost </a></div>
 
 
-        </div>
+        </div> -->
 
 
         <form action="" method="POST" enctype="multipart/form-data" class="row g-3 mt-3 ">
             <h4>Childs Information</h4>
 
             <div class="col-lg-4 col-md-6 col-sm-12 input-group-lg">
-                <input type="text" name="firstName" placeholder="First Name" value="<?= isset($_SESSION['birthInfo']['firstName']) ? $_SESSION['birthInfo']['firstName'] : ''; ?>" class="form-control input-style" required>
+                <input type="text" name="firstName" placeholder="First Name" value="<?= isset($_SESSION['birthInfo']['firstName']) ? $_SESSION['birthInfo']['firstName'] : ''; ?>" class="form-control input-style text-uppercase" required>
             </div>
             <div class="col-lg-4 col-md-6 col-sm-12 input-group-lg ">
-                <input type="text" name="fatherName" placeholder="Father Name" value="<?= isset($_SESSION['birthInfo']['fatherName']) ? $_SESSION['birthInfo']['fatherName'] : ''; ?>" class="form-control input-style" required>
+                <input type="text" name="fatherName" placeholder="Father Name" value="<?= isset($_SESSION['birthInfo']['fatherName']) ? $_SESSION['birthInfo']['fatherName'] : ''; ?>" class="form-control input-style text-uppercase " required>
             </div>
             <div class="col-lg-4 col-md-6 col-sm-12 input-group-lg">
-                <input type="text" name="grandFatherName" placeholder="Grand Father Name" value="<?= isset($_SESSION['birthInfo']['grandFatherName']) ? $_SESSION['birthInfo']['grandFatherName'] : ''; ?>" class="form-control input-style" required>
+                <input type="text" name="grandFatherName" placeholder="Grand Father Name" value="<?= isset($_SESSION['birthInfo']['grandFatherName']) ? $_SESSION['birthInfo']['grandFatherName'] : ''; ?>" class="form-control input-style text-uppercase " required>
             </div>
             <div class="col-lg-4 col-md-6 col-sm-12 input-group-lg">
                 <input type="text" name="firstNameA" placeholder=" Frst Name (In Amharic)" value="<?= isset($_SESSION['birthInfo']['firstNameA']) ? $_SESSION['birthInfo']['firstNameA'] : ''; ?>" class="form-control input-style" required>
@@ -95,22 +102,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </select>
             </div>
             <div class="col-lg-4 col-md-12 col-sm-12 input-group-lg">
-                <input type="number" name="weight" placeholder="Weight in KG" value="<?= isset($_SESSION['birthInfo']['weight']) ? $_SESSION['birthInfo']['weight'] : ''; ?>" class="form-control input-style" required>
+                <input type="number" name="weight" min = "0" placeholder="Weight in KG" value="<?= isset($_SESSION['birthInfo']['weight']) ? $_SESSION['birthInfo']['weight'] : ''; ?>" class="form-control input-style" required>
             </div>
             <div class="col-lg-4 col-md-6 col-sm-12 input-group-lg">
-                <input type="text" name="nationality" placeholder="Nationality" value="<?= isset($_SESSION['birthInfo']['nationality']) ? $_SESSION['birthInfo']['nationality'] : ''; ?>" class="form-control input-style" required>
+                <input type="text" name="nationality" placeholder="Nationality" value="<?= isset($_SESSION['birthInfo']['nationality']) ? $_SESSION['birthInfo']['nationality'] : ''; ?>" class="form-control input-style text-uppercase" required>
             </div>
 
             <div class="col-lg-4 col-md-12 col-sm-12 input-group-lg">
                 <label for="dateInGC" class="form-label">Date of Birth in G.C</label>
-                <input id="dateInGC" name="GC" type="date" value="<?= isset($_SESSION['birthInfo']['GC']) ? $_SESSION['birthInfo']['GC'] : ''; ?>" class="form-control input-style" required>
+                <input id="dateInGC" name="GC" type="date" min="1921-01-01" max ="<?php echo $currentDate?>" value="<?= isset($_SESSION['birthInfo']['GC']) ? $_SESSION['birthInfo']['GC'] : ''; ?>" class="form-control input-style" required>
             </div>
             <div class="col-lg-4 col-md-6 col-sm-12 text-center d-none d-lg-block">
                 <img class="mt-3" src="../Icons/switch.svg" alt="switch">
             </div>
             <div class="col-lg-4 col-md-6 col-sm-12 input-group-lg">
                 <label for="dateInEC" class="form-label">Date of Birth in E.C</label>
-                <input id="dateInEC" name="EC" type="date" value="<?= isset($_SESSION['birthInfo']['EC']) ? $_SESSION['birthInfo']['EC'] : ''; ?>" class="form-control input-style" required>
+                <input id="dateInEC" name="EC" type="date"  min="1913-01-01" max ="<?php echo $currentDateEC?>" value="<?= isset($_SESSION['birthInfo']['EC']) ? $_SESSION['birthInfo']['EC'] : ''; ?>" class="form-control input-style" required>
             </div>
 
             <label for="placeOfBirth" class="form-label">Place of Birth</label>
@@ -133,21 +140,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             </div>
             <div class="col-lg-2 col-md-6 col-sm-12 input-group-lg">
-                <input type="text" name="POBcity" placeholder="City" value="<?= isset($_SESSION['birthInfo']['POBcity']) ? $_SESSION['birthInfo']['POBcity'] : ''; ?>" class="form-control input-style" required>
+                <input type="text" name="POBcity" placeholder="City" value="<?= isset($_SESSION['birthInfo']['POBcity']) ? $_SESSION['birthInfo']['POBcity'] : ''; ?>" class="form-control input-style text-uppercase" required>
             </div>
             <div class="col-lg-2 col-md-6 col-sm-12 input-group-lg">
-                <input type="number" name="POBworeda" placeholder="Woreda" value="<?= isset($_SESSION['birthInfo']['POBworeda']) ? $_SESSION['birthInfo']['POBworeda'] : ''; ?>" class="form-control input-style" required>
+                <input type="number" name="POBworeda" min = "1" placeholder="Woreda" value="<?= isset($_SESSION['birthInfo']['POBworeda']) ? $_SESSION['birthInfo']['POBworeda'] : ''; ?>" class="form-control input-style" required>
             </div>
             <div class="col-lg-4 col-md-6 col-sm-12 input-group-lg">
-                <input type="text" name="placeOccurrence" placeholder="Type of Place Occurrence / Institution" value="<?= isset($_SESSION['birthInfo']['placeOccurrence']) ? $_SESSION['birthInfo']['placeOccurrence'] : ''; ?>" class="form-control input-style" required>
+                <input type="text" name="placeOccurrence" placeholder="Type of Place Occurrence / Institution" value="<?= isset($_SESSION['birthInfo']['placeOccurrence']) ? $_SESSION['birthInfo']['placeOccurrence'] : ''; ?>" class="form-control input-style text-uppercase" required>
                 <small class="form-text text-muted">(Hospital, Home etc ..)</small>
             </div>
             <div class="col-lg-4 col-md-6 col-sm-12 input-group-lg">
-                <input type="text" name="attendant" placeholder="Attendant at Birth" value="<?= isset($_SESSION['birthInfo']['attendant']) ? $_SESSION['birthInfo']['attendant'] : ''; ?>" class="form-control input-style" required>
+                <input type="text" name="attendant" placeholder="Attendant at Birth" value="<?= isset($_SESSION['birthInfo']['attendant']) ? $_SESSION['birthInfo']['attendant'] : ''; ?>" class="form-control input-style text-uppercase" required>
             </div>
             <div class="col-lg-4 col-md-6 col-sm-12 input-group-lg">
                 <select class="form-select input-style" required>
-                    <option>Type of Birth</option>
+                    <option value="">Type of Birth</option>
                     <option value="Single">Single</option>
                     <option value="Twins">Twins</option>
                     <option value="Triplet">Triplet</option>

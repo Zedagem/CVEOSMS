@@ -17,9 +17,24 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
 </head>
 <body>
     <?php include 'userTemplet.php'?>
+    <?php 
+    require_once '../dbconnection.php'; 
+    $userID = $_SESSION["userID"] ;
+
+    try{
+        $sql ="SELECT * FROM household where id='$userID'";
+        $stmt = $pdo->prepare($sql);
+        $stmt ->execute();
+        $row2 = $stmt -> fetch();
+
+    }
+    catch (PDOException $e) {
+		echo $e->getMessage();
+    }
+    ?>
 
     <div class="text-center mt-5" >
-        <img class="rounded-circle"  src="<?php echo "http://localhost:8080/". $_SESSION['profile_pic'];?>" alt="profile picture" width="200vw" height="200vw">
+        <img class="rounded-circle"  src="<?php echo "http://localhost/". $_SESSION['profile_pic'];?>" alt="profile picture" width="200vw" height="200vw">
         <h4 class="mt-4"> <?php echo $_SESSION["FirstName"] . " " .$_SESSION["MiddleName"] ." ". $_SESSION["LastName"]?></h4>    
     </div>
     <div>

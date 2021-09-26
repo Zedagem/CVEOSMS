@@ -21,7 +21,7 @@ unset($roww);
 
         <div>
             <ul>
-                <li class="mb-4"><img class="rounded-circle" src="<?php echo "http://localhost:8080/" . $_SESSION['profile_pic']; ?>" alt="profile picture" width="100vw" height="100vw"></li>
+                <li class="mb-4"><img class="rounded-circle" src="<?php echo "http://localhost/" . $_SESSION['profile_pic']; ?>" alt="profile picture" width="100vw" height="100vw"></li>
                 <li><?php echo $_SESSION["EmployeeID"] ?></li>
                 <li><?php echo $_SESSION["firstName"] . " " . $_SESSION["middleName"] ?></li>
                 <li><?php echo $_SESSION["email"] ?></li>
@@ -43,24 +43,11 @@ unset($roww);
         </div>
 
         <div class="mt-5">
-            <a href=".php">Birth Certificate</a>
+            <a href="registration.php">Registration</a>
         </div>
 
         <div class="mt-5">
-            <a href=".php">Death Certificate</a>
-        </div>
-
-        <div class="mt-5">
-            <a href=".php">Civil Registration</a>
-        </div>
-
-        <div class="mt-5 sidebar ">
-            <a href=".php">Marriage Certificate</a>
-        </div>
-
-
-        <div class="mt-5">
-            <a href=".php">Divorce Registration</a>
+            <a href="viewHousehold.php"> View Residents</a>
         </div>
 
         <div class="mt-5">

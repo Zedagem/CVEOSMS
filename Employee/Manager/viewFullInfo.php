@@ -71,14 +71,14 @@ if($stmt->rowCount() >0){
       <td><?php echo $row['fatherLastName'] ?></td>
       <td><?php echo $row['motherName'] ?></td>
       <td><?php echo $row['motherLastName'] ?></td>
-      <td> <a target="_blank" href="<?php echo 'http://localhost:8080/' . $row['photo'] ?>">View</a></td>
+      <td> <a target="_blank" href="<?php echo 'http://localhost/' . $row['photo'] ?>">View</a></td>
       <td> <?php
       if($row['titleCert']== " ")
       {
         echo "---";
       }
       else{?>
-        <a target="_blank" href="<?php echo 'http://localhost:8080/' . $row['titleCert'] ?>">
+        <a target="_blank" href="<?php echo 'http://localhost/' . $row['titleCert'] ?>">
         View</a></td>
       <?php } ?>
 

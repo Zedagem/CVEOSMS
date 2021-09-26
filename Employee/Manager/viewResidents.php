@@ -1,12 +1,21 @@
 <?php
- // Initialize the session
- session_start();
- 
- // Check if the user is logged in, if not then redirect him to login page
- if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
-     header("location: login.php");
-     exit;
- }
+//Initialize the session
+session_start();
+
+$id=trim($_SESSION["EmployeeID"]);
+$cut = substr($id, 0, -6);
+
+
+
+// Check if the user is logged in, if not then redirect him to login page
+if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true  || strcmp($cut,'man') != 0) {
+  
+    header("location: http://localhost/Employee/login.php");
+    exit;
+
+}
+?>
+<?php
 include '../../header.php'; 
 require_once "../../dbconnection.php";?>
 <link rel="stylesheet" type="text/css" href="../../css/style.css">
@@ -50,7 +59,7 @@ require_once "../../dbconnection.php";?>
  <table class="table mt-5 ">
 <thead class="thead-dark">
  <tr>
-     <th scope="col">H.No</th>
+     <th scope="col">ID</th>
      <th scope="col">Member Type</th>
      <th scope="col">Full Name</th>
      <th scope="col">Phone</th>
@@ -85,7 +94,7 @@ if($stmt->rowCount() >0){
    while($row = $stmt->fetch()){?>
  
      <tr>
-     <td> <?php echo $row["houseNumber"]?> </td>
+     <td> <?php echo $row["id"]?> </td>
      <td> <?php echo $row["memberType"]?> </td>
      <td> <?php echo $row["fname"]." ".$row["mname"]." ".$row["lname"]?> </td>
      <td> <?php echo $row["phoneNumber"]?> </td>

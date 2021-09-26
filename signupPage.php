@@ -8,30 +8,41 @@ session_start();
 require_once "dbconnection.php";
 
 // Define variables and initialize with empty values
-$phoneNumber = $password = $hash_password = $houseNumber = $dateOfBirth = $firstName = $middleName = $lastName = $email = $photo = "";
-$username_err = $duplicate_account = "";
+$phoneNumber = $userName = $password = $hash_password = $houseNumber = $dateOfBirth = $firstName = $middleName = $lastName = $email = $photo = "";
+$username_err = $duplicate_account = $dob = "";
+
 
 // Processing form data when form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-    $phoneNumber = trim($_POST["phoneNumber"]);
-    $phoneNumber = $phoneNumber*1;
+
     $hash_password = password_hash(trim($_POST["password"]), PASSWORD_DEFAULT);
+    $userName = trim($_POST['userName']);
     $houseNumber = strtoupper(trim($_POST["houseNumber"]));
     $dateOfBirth = strtoupper(trim($_POST["dateOfBirth"]));
     $firstName = strtoupper(trim($_POST["firstName"]));
     $middleName = strtoupper(trim($_POST["middleName"]));
     $lastName = strtoupper(trim($_POST["lastName"]));
-    $email = trim($_POST["email"]);
+    if (empty(trim($_POST["phoneNumber"]))) {
+        $phoneNumber = 0;
+    } else {
+        $phoneNumber = trim($_POST["phoneNumber"]);
+        $phoneNumber = $phoneNumber * 1;
+    }
+    if (empty(trim($_POST["email"]))) {
+        $email = "";
+    } else {
+        $email = trim($_POST["email"]);
+    }
 
     //  $hash_password = password_hash($password, PASSWORD_DEFAULT);
 
 
 
     // Prepare a select statement
-    $sql = "SELECT fname, mname,lname,dobGC,houseNumber 
+    $sql = "SELECT * 
         FROM household 
-        WHERE fname = :firstName AND mname = :middleName AND lname = :lastName AND dobGC = :dateOfBirth AND houseNumber = :houseNumber AND phoneNumber= :phoneNumber" ;
+        WHERE fname = :firstName AND mname = :middleName AND lname = :lastName AND dobGC = :dateOfBirth AND houseNumber = :houseNumber AND phoneNumber= :phoneNumber";
 
     $stmt = $pdo->prepare($sql);
     // Bind variables to the prepared statement as parameters
@@ -48,6 +59,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt->execute();
     // Check if that user is in the household information table
     if ($stmt->rowCount() == 1) {
+        $row = $stmt->fetch();
+        $_SESSION["userID"] = $row["id"];
 
         $sql3 = "SELECT FirstName, MiddleName,LastName,DOB,Housenum 
                         FROM resident 
@@ -67,58 +80,79 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         if ($stmt3->rowCount() == 1) {
             $duplicate_account = "<p> You already have an account <a href='loginPage.php'> LogIn here </a> <p> ";
-        } else {
+        } else { // to check if there is user name duplication 
+            $sql4 = "SELECT userName, DOB from resident where userName=:userName";
+            $stmt4 = $pdo->prepare($sql4);
+            $stmt4->bindParam(":userName", $userName, PDO::PARAM_STR);
+            $stmt4->execute();
+           
 
-            //Inset into resident table for sign up
 
-            $sql2 = "INSERT INTO resident (Phone, Housenum,DOB,password,FirstName,MiddleName,LastName,email, Photo) 
-                                values (:phoneNumber,:houseNumber,:dateOfBirth,:secretKey,:firstName,:middleName,:lastName,:email,:profile_pic);";
+            if ($stmt4->rowCount() == 0) {
+                $birthDate = trim($_POST['dateOfBirth']);
+                $currentDate = date("d-m-Y");
+                $age = date_diff(date_create($birthDate), date_create($currentDate));
 
-            // Prepare stmt2
-            $stmt2 = $pdo->prepare($sql2);
+                if (($age->format("%y")) < 18) {
+                    echo "<script> alert('You have to be 18 to register'); </script>";
+                } else {
 
-            $_SESSION['profile_pic'] = 'files/resident/' . time() . $_FILES['profile_pic']['name'];
-            move_uploaded_file($_FILES['profile_pic']['tmp_name'], $_SESSION['profile_pic']);
+                    //Inset into resident table for sign up
 
-            // Bind variables to the prepared statement as parameters
+                    $sql2 = "INSERT INTO resident (id,Phone,Housenum,DOB,password,FirstName,MiddleName,LastName,email, Photo,userName) 
+                                values (:id,:phoneNumber,:houseNumber,:dateOfBirth,:secretKey,:firstName,:middleName,:lastName,:email,:profile_pic,:userName);";
 
-            $stmt2->bindParam(":firstName", $firstName, PDO::PARAM_STR);
-            $stmt2->bindParam(":middleName", $middleName, PDO::PARAM_STR);
-            $stmt2->bindParam(":lastName", $lastName, PDO::PARAM_STR);
-            $stmt2->bindParam(":dateOfBirth", $dateOfBirth, PDO::PARAM_STR);
-            $stmt2->bindParam(":houseNumber", $houseNumber, PDO::PARAM_INT);
-            $stmt2->bindParam(":secretKey", $hash_password, PDO::PARAM_STR);
-            $stmt2->bindParam(":phoneNumber", $phoneNumber, PDO::PARAM_INT);
-            $stmt2->bindParam(":email", $email, PDO::PARAM_STR);
-            $stmt2->bindParam(":profile_pic", $_SESSION['profile_pic'], PDO::PARAM_STR);
+                    // Prepare stmt2
+                    $stmt2 = $pdo->prepare($sql2);
 
-            //execute stmt2
-            $stmt2->execute();
+                    $_SESSION['profile_pic'] = 'files/resident/' . time() . $_FILES['profile_pic']['name'];
+                    move_uploaded_file($_FILES['profile_pic']['tmp_name'], $_SESSION['profile_pic']);
 
-            // fetch row for setting session 
-            // $row = $stmt->fetch();
-            // $firstName = $row["FirstName"];
-            // $middleName = $row["MiddleName"];
-            // $lastName = $row["LastName"];
-            // $dateOfBirth = $row["DOB"];
-            // $houseNumber = $row["Housenum"];
-            // $email = $row["email"];
-            // $phoneNumber = $row["phoneNumber"];
-            // $profile_photo = $row["Photo"];
+                    // Bind variables to the prepared statement as parameters
+                    $stmt2->bindParam(":id", $_SESSION['userID'], PDO::PARAM_INT);
+                    $stmt2->bindParam(":firstName", $firstName, PDO::PARAM_STR);
+                    $stmt2->bindParam(":middleName", $middleName, PDO::PARAM_STR);
+                    $stmt2->bindParam(":lastName", $lastName, PDO::PARAM_STR);
+                    $stmt2->bindParam(":dateOfBirth", $dateOfBirth, PDO::PARAM_STR);
+                    $stmt2->bindParam(":houseNumber", $houseNumber, PDO::PARAM_INT);
+                    $stmt2->bindParam(":secretKey", $hash_password, PDO::PARAM_STR);
+                    $stmt2->bindParam(":phoneNumber", $phoneNumber, PDO::PARAM_INT);
+                    $stmt2->bindParam(":email", $email, PDO::PARAM_STR);
+                    $stmt2->bindParam(":userName", $userName, PDO::PARAM_STR);
+                    $stmt2->bindParam(":profile_pic", $_SESSION['profile_pic'], PDO::PARAM_STR);
 
-            // Store data in session variables
-            $_SESSION["loggedin"] = true;
-            $_SESSION["FirstName"] = $firstName;
-            $_SESSION["MiddleName"] = $middleName;
-            $_SESSION["LastName"] = $lastName;
-            $_SESSION["DOB"] = $dateOfBirth;
-            $_SESSION["Housenum"] = $houseNumber;
-            $_SESSION["email"] = $email;
-            $_SESSION["phoneNumber"] = $phoneNumber;
-            //$_SESSION["profile_photo"] =  $_SESSION["profile_photo"];
+                    //execute stmt2
+                    $stmt2->execute();
 
-            // Redirect user to welcome page
-            header("location: user/userDashboard.php");
+                    // fetch row for setting session 
+                    // $row = $stmt->fetch();
+                    // $firstName = $row["FirstName"];
+                    // $middleName = $row["MiddleName"];
+                    // $lastName = $row["LastName"];
+                    // $dateOfBirth = $row["DOB"];
+                    // $houseNumber = $row["Housenum"];
+                    // $email = $row["email"];
+                    // $phoneNumber = $row["phoneNumber"];
+                    // $profile_photo = $row["Photo"];
+
+                    // Store data in session variables
+                    $_SESSION["loggedin"] = true;
+                    $_SESSION["FirstName"] = $firstName;
+                    $_SESSION["MiddleName"] = $middleName;
+                    $_SESSION["LastName"] = $lastName;
+                    $_SESSION["DOB"] = $dateOfBirth;
+                    $_SESSION["Housenum"] = $houseNumber;
+                    $_SESSION["email"] = $email;
+                    $_SESSION["phoneNumber"] = $phoneNumber;
+                    $_SESSION["userName"] = $userName;
+                    //$_SESSION["profile_photo"] =  $_SESSION["profile_photo"];
+
+                    // Redirect user to welcome page
+                    header("location: user/userDashboard.php");
+                }
+            } else {
+                $username_err = "User Name already taken";
+            }
         }
     } else {
         // Display an error message if username doesn't exist
@@ -211,6 +245,17 @@ unset($pdo);
                         <h1 class="mb-4">SIGN UP </h1>
 
                         <div class="form-floating form-group mb-3">
+                            <input type="text" name="userName" placeholder="User Name" required>
+                        </div>
+                        <div style="color:red" class="mt-3">
+                            <?php
+                            echo $duplicate_account;
+                            echo $username_err;
+
+                            ?>
+                        </div>
+
+                        <div class="form-floating form-group mb-3">
                             <input type="text" name="firstName" placeholder="First Name" required>
                         </div>
                         <div class="form-floating form-group mb-3">
@@ -220,23 +265,23 @@ unset($pdo);
                             <input type="text" name="lastName" placeholder="Grand Father Name" required>
                         </div>
                         <div class="form-floating form-group mb-3">
-                            <input type="number" name="houseNumber" placeholder="House Number" required>
+                            <input type="number" name="houseNumber" min="1" placeholder="House Number" required>
                         </div>
                         <div class="form-floating form-group mb-3">
-                            <input type="date" name="dateOfBirth" id="dateOfBirth" placeholder="Date of Birth" required>
+                            <input type="date" name="dateOfBirth" max="<?php echo $currentDate ?>" id="dateOfBirth" placeholder="Date of Birth" required>
                         </div>
 
                         <div class="form-floating form-group mb-3">
-                            <input type="tel" name="phoneNumber" placeholder="Phone Number" pattern="[0-9]{10}" required>
+                            <input type="tel" name="phoneNumber" placeholder="Phone Number" pattern="[0-9]{10}">
                         </div>
                         <div class="form-floating form-group mb-3">
-                            <input type="email" name="email" placeholder="Email Address " required>
+                            <input type="email" name="email" placeholder="Email Address ">
                         </div>
 
                         <div class="form-floating form-group mb-3">
                             <input type="password" name="password" placeholder="Password" required>
                         </div>
-                
+
                         <div class=" input-group-lg ">
                             <label for="profile"> Profile Picture</label>
                             <input type="file" name="profile_pic" id="profile" accept=".jpeg,.png,.jpg,.pdf" class="form-control input-style" required>
@@ -247,14 +292,6 @@ unset($pdo);
                         <div class="form-floating form-group mt-5">
                             <input class="btn" type="submit" name="submit" value="SIGN UP">
 
-                        </div>
-
-                        <div class="mt-3">
-                            <?php
-                            echo $duplicate_account;
-                            echo $username_err;
-
-                            ?>
                         </div>
 
 

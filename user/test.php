@@ -1,65 +1,61 @@
+<!DOCTYPE html>
 <html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+        <!-- <link rel="stylesheet" href="/Users/z/Desktop/CVEOSMS/css/userCss.css"> -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    </head>
 
-  <head> 
-    <meta http-equiv="content-type" content="text/xhtml; charset=utf-8" /> 
-    <title>Dynamic Select Statements</title> 
-<script type="text/javascript">
- //<![CDATA[ 
- // array of possible countries in the same order as they appear in the country selection list 
- var countryLists = new Array(4) 
- countryLists["empty"] = ["Zone/City"]; 
- countryLists["Addis Ababa"] = ["Addis Ababa"]; 
- countryLists["Afar"] = ["Awsi Rasu", "Kilbet Rasu", "Gabi Rasu", "Hari", "Argobba"]; 
- countryLists["Amhara"] = ["Agew Awi", "East Gojjam", "North Gondar", "Wag Hemra", "Bahir Dar "]; 
- countryLists["Benishangul-Gummuz"]= ["Asosa", "Kamashi", "Metekel"];  
- /* CountryChange() is called from the onchange event of a select element. 
- * param selectObj - the select object which fired the on change event. 
- */ 
- function countryChange(selectObj) { 
- // get the index of the selected option 
- var idx = selectObj.selectedIndex; 
- // get the value of the selected option 
- var which = selectObj.options[idx].value; 
- // use the selected option value to retrieve the list of items from the countryLists array 
- cList = countryLists[which]; 
- // get the country select element via its known id 
- var cSelect = document.getElementById("country"); 
- // remove the current options from the country select 
- var len=cSelect.options.length; 
- while (cSelect.options.length > 0) { 
- cSelect.remove(0); 
- } 
- var newOption; 
- // create new options 
- for (var i=0; i<cList.length; i++) { 
- newOption = document.createElement("option"); 
- newOption.value = cList[i];  // assumes option string and value are the same 
- newOption.text=cList[i]; 
- // add the new option 
- try { 
- cSelect.add(newOption);  // this will fail in DOM browsers but is needed for IE 
- } 
- catch (e) { 
- cSelect.appendChild(newOption); 
- } 
- } 
- } 
-//]]>
-</script>
-</head>
-<body>
-  <noscript>This page requires JavaScript be available and enabled to function properly</noscript>
-  <h1>Dynamic Select Statements</h1>
-  <label for="continent">Select Continent</label>
-  <select id="continent" onchange="countryChange(this);">
-    <option value="empty">Select a Continent</option>
-    <option value="Addis Ababa">Addis Ababa</option>
-    <option value="Afar">Afar</option>
-    <option value="Amhara">Amhara</option>
-    <option value="Benishangul-Gummuz">Benishangul-Gummuz</option>
-  </select>
-  <br/>
-  <label for="country">Select a country</label>
+    <body>
+    <?php
+
+// define('DB_SERVER', 'localhost');     
+// define('DB_USERNAME', 'root');
+// define('DB_PASSWORD', '');
+// define('DB_NAME', 'cveosmstest');
+$DB_SERVER = '127.0.0.1';
+$DB_USERNAME = 'root';
+$DB_PASSWORD = '';
+$DB_NAME ='amharic';
+$name="";
+ 
+/* Attempt to connect to MySQL database */
+// try{
+//     $pdo = new PDO("mysql:host=" . $DB_SERVER . ";dbname=" . $DB_NAME, $DB_USERNAME, $DB_PASSWORD);
+//     // Set the PDO error mode to exception
+//     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+ 
   
-</body>
- </html>
+// } catch(PDOException $e){
+//     die("ERROR: Could not connect. " . $e->getMessage());
+// }
+// if(isset($_POST['submit'])){
+// $name = $_POST['name'];
+// $sql = "INSERT INTO info(fname) values ('$name')";
+// $stmt = $pdo->prepare($sql);
+// $stmt->execute();
+// }
+// else{
+//   echo "error executing";
+// }
+$currentDate= date("Y-m-d");
+$dob = '2003-09-24';
+$diff= date_diff(date_create($currentDate), date_create($dob));
+if($diff->format('%y')>=18){
+    echo " above 18";
+}
+else{
+    echo " Not 18";
+}
+
+?>
+
+<form method="post">
+  <input type="text" name="name" placeholder="name">
+
+<input type="submit" name="submit">
+</form>
+    </body>
+</html>

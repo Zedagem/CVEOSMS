@@ -1,5 +1,9 @@
 <?php
 session_start();
+//Check if the user is logged in, if not then redirect him to login page
+if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
+    header("location: ../loginPage.php");
+}
 $error = "";
 if (isset($_POST['next'])) {
     // code...
@@ -56,13 +60,13 @@ if (isset($_POST['next'])) {
             <h4>Father Information</h4>
 
             <div class="col-lg-4 col-md-6 col-sm-12 input-group-lg">
-                <input type="text" name="FfirstName" placeholder="First Name" value="<?= isset($_SESSION['birthInfo']['FfirstName']) ? $_SESSION['birthInfo']['FfirstName'] : ''; ?>" class="form-control input-style" required>
+                <input type="text" name="FfirstName" placeholder="First Name" value="<?= isset($_SESSION['birthInfo']['FfirstName']) ? $_SESSION['birthInfo']['FfirstName'] : ''; ?>" class="form-control input-style text-uppercase" required>
             </div>
             <div class="col-lg-4 col-md-6 col-sm-12 input-group-lg ">
-                <input type="text" name="FfatherName" placeholder="Father Name" value="<?= isset($_SESSION['birthInfo']['FfatherName']) ? $_SESSION['birthInfo']['FfatherName'] : ''; ?>" class="form-control input-style" required>
+                <input type="text" name="FfatherName" placeholder="Father Name" value="<?= isset($_SESSION['birthInfo']['FfatherName']) ? $_SESSION['birthInfo']['FfatherName'] : ''; ?>" class="form-control input-style text-uppercase" required>
             </div>
             <div class="col-lg-4 col-md-6 col-sm-12 input-group-lg">
-                <input type="text" name="FgrandFatherName" placeholder="Grand Father Name" value="<?= isset($_SESSION['birthInfo']['FgrandFatherName']) ? $_SESSION['birthInfo']['FgrandFatherName'] : ''; ?>" class="form-control input-style" required>
+                <input type="text" name="FgrandFatherName" placeholder="Grand Father Name" value="<?= isset($_SESSION['birthInfo']['FgrandFatherName']) ? $_SESSION['birthInfo']['FgrandFatherName'] : ''; ?>" class="form-control input-style text-uppercase" required>
             </div>
             <div class="col-lg-4 col-md-6 col-sm-12 input-group-lg">
                 <input type="text" name="FfirstNameA" placeholder="First Name (In Amharic)" value="<?= isset($_SESSION['birthInfo']['FfirstNameA']) ? $_SESSION['birthInfo']['FfirstNameA'] : ''; ?>" class="form-control input-style" required>
@@ -77,14 +81,14 @@ if (isset($_POST['next'])) {
 
             <div class="col-lg-4 col-md-12 col-sm-12 input-group-lg">
                 <label for="dateInGC" class="form-label">Date of Birth in G.C</label>
-                <input id="dateInGC" type="date" name="FGC" value="<?= isset($_SESSION['birthInfo']['FGC']) ? $_SESSION['birthInfo']['FGC'] : ''; ?>" class="form-control input-style" required>
+                <input id="dateInGC" type="date" name="FGC" min="1921-01-01" max ="<?php echo $currentDate?>" value="<?= isset($_SESSION['birthInfo']['FGC']) ? $_SESSION['birthInfo']['FGC'] : ''; ?>" class="form-control input-style" required>
             </div>
             <div class="col-lg-4 col-md-6 col-sm-12 text-center d-none d-lg-block">
                 <img class="mt-3" src="../Icons/switch.svg" alt="switch">
             </div>
             <div class="col-lg-4 col-md-6 col-sm-12 input-group-lg">
                 <label for="dateInEC" class="form-label">Date of Birth in E.C</label>
-                <input id="dateInEC" type="date" name="FEC" value="<?= isset($_SESSION['birthInfo']['FEC']) ? $_SESSION['birthInfo']['FEC'] : ''; ?>" class="form-control input-style" required>
+                <input id="dateInEC" type="date" name="FEC" min="1913-01-01" max ="<?php echo $currentDateEC?>" value="<?= isset($_SESSION['birthInfo']['FEC']) ? $_SESSION['birthInfo']['FEC'] : ''; ?>" class="form-control input-style" required>
             </div>
 
             <label for="placeOfBirth" class="form-label">Place of Birth</label>
@@ -107,10 +111,10 @@ if (isset($_POST['next'])) {
 
             </div>
             <div class="col-lg-2 col-md-6 col-sm-12 input-group-lg">
-                <input type="text" name="FPOBcity" placeholder="City" value="<?= isset($_SESSION['birthInfo']['FPOBcity']) ? $_SESSION['birthInfo']['FPOBcity'] : ''; ?>" class="form-control input-style">
+                <input type="text" name="FPOBcity" placeholder="City" value="<?= isset($_SESSION['birthInfo']['FPOBcity']) ? $_SESSION['birthInfo']['FPOBcity'] : ''; ?>" class="form-control input-style text-uppercase">
             </div>
             <div class="col-lg-2 col-md-6 col-sm-12 input-group-lg">
-                <input type="number" name="FPOBworeda" placeholder="Woreda" value="<?= isset($_SESSION['birthInfo']['FPOBworeda']) ? $_SESSION['birthInfo']['FPOBworeda'] : ''; ?>" class="form-control input-style" required>
+                <input type="number" name="FPOBworeda" placeholder="Woreda" min = "1" value="<?= isset($_SESSION['birthInfo']['FPOBworeda']) ? $_SESSION['birthInfo']['FPOBworeda'] : ''; ?>" class="form-control input-style" required>
             </div>
 
             <label for="usualResidence" class="form-label">Place of Usual Residence</label>
@@ -133,10 +137,10 @@ if (isset($_POST['next'])) {
 
             </div>
             <div class="col-lg-2 col-md-6 col-sm-12 input-group-lg">
-                <input type="text" name="FURcity" placeholder="City" value="<?= isset($_SESSION['birthInfo']['FURcity']) ? $_SESSION['birthInfo']['FURcity'] : ''; ?>" class="form-control input-style">
+                <input type="text" name="FURcity" placeholder="City" value="<?= isset($_SESSION['birthInfo']['FURcity']) ? $_SESSION['birthInfo']['FURcity'] : ''; ?>" class="form-control input-style text-uppercase">
             </div>
             <div class="col-lg-2 col-md-6 col-sm-12 input-group-lg">
-                <input type="number" name="FURworeda" placeholder="Woreda" value="<?= isset($_SESSION['birthInfo']['FURworeda']) ? $_SESSION['birthInfo']['FURworeda'] : ''; ?>" class="form-control input-style" required>
+                <input type="number" name="FURworeda" placeholder="Woreda" min = "1" value="<?= isset($_SESSION['birthInfo']['FURworeda']) ? $_SESSION['birthInfo']['FURworeda'] : ''; ?>" class="form-control input-style" required>
             </div>
             <div class="col-lg-4 col-md-6 col-sm-12 input-group-lg">
                 <select name="FoccupationType" class="form-select input-style">
@@ -175,7 +179,7 @@ if (isset($_POST['next'])) {
             </div>
 
             <div class="col-lg-4 col-md-6 col-sm-12 input-group-lg" required>
-                <input type="text" name="Fnationality" placeholder="Nationality" value="<?= isset($_SESSION['birthInfo']['Fnationality']) ? $_SESSION['birthInfo']['Fnationality'] : ''; ?>" class="form-control input-style" required>
+                <input type="text" name="Fnationality" placeholder="Nationality" value="<?= isset($_SESSION['birthInfo']['Fnationality']) ? $_SESSION['birthInfo']['Fnationality'] : ''; ?>" class="form-control input-style text-uppercase" required>
             </div>
             <div class="col-lg-4 col-md-6 col-sm-12 input-group-lg" required>
                 <input type="text" name="Fid" placeholder="Identification Number" value="<?= isset($_SESSION['birthInfo']['Fid']) ? $_SESSION['birthInfo']['Fid'] : ''; ?>" class="form-control input-style" required>

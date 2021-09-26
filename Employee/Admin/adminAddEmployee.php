@@ -1,11 +1,18 @@
 <?php
 //Initialize the session
 session_start();
- 
+
+$id=trim($_SESSION["EmployeeID"]);
+$cut = substr($id, 0, -6);
+
+
+
 // Check if the user is logged in, if not then redirect him to login page
-if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
-    header("location: ../login.php");
+if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true  || strcmp($cut,'adm') != 0) {
+  
+    header("location: http://localhost/Employee/login.php");
     exit;
+
 }
 ?>
 
@@ -28,6 +35,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
     $newFileName="";
 	$email="";
 	$hashpas="";
+    $unhash=$to=$content=$headers=$subject="";
     $photo="";
     $random=rand(10000,99999);
 
@@ -77,12 +85,11 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
      
     if(isset($_POST['employeeType']))
     {
-            echo "this is working";
+           
             $emp= $_POST['employeeType'];
     }
-    else{
-            echo "its not working";
-    }
+   
+    $unhash=trim($_POST["password"]);
 	$pas=password_hash(trim($_POST["password"]),PASSWORD_DEFAULT );
    
 
@@ -130,6 +137,20 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
     VALUES ('$empID', '$Emptype', '$phone', '$email', '$fname', '$mname', '$lname','$sex', '$DOB', '$newFileName','$housenum','$pas')";
   
    try{ $pdo->exec($sql);
+    $to = $email;
+
+    $subject = 'Your new CVEOSMS account';
+
+    $content = "Congratulations! Your new account details are as follows. Your ID is ".$empID. " and your password is ".$unhash;
+
+    if (mail($to, $subject, $content, $headers))
+    {
+    echo "<script> alert('Success !!!') </script>";
+    }  
+    else 
+    {
+       echo "ERROR";
+    }
     echo <<< EOF
     <script> alert('Employee Successfully Added ') </script>;
 EOF;

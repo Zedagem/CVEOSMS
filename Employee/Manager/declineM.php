@@ -1,26 +1,67 @@
 <?php
 
-include "../../dbconnection.php"; // Using database connection file here
+require_once "../../dbconnection.php"; // Using database connection file here
 
 $id = $_GET['id']; // get id through query string
-$phoneNumber = $_GET['phoneNumber'];
-$notificationDate=date("Y-m-d");
+$applierId = $_GET['applierId'];
+$requestType = $_GET['requestType'];
+$EmployeeID =  $_GET['EmployeeID'];
+$notificationDate = date("Y-m-d");
+$birth = "BIRTH";
+$death = "DEATH";
+$marriage = "MARRIAGE";
+$divorce = "DIVORCE";
+$civilLost ="CIVIL_LOST";
+$civil = "CIVIL";
+$type = "";
 
 
-
-
-if($phoneNumber){
-    $sql="DELETE FROM birthrequest where id ='$id'";
-    $stmt = $pdo->prepare($sql);
-    $stmt->execute();
-    $sql2="INSERT INTO notification(ResPhone,notificationDate,notificationContent) 
-    values('$phoneNumber','$notificationDate','Message from Manager : Your Request has been denied due to Fradulent aactivity');";
-    $stmt2 = $pdo->prepare($sql2);
-    $stmt2->execute();
-    echo "<script> alert('request has been succesfuly declined')</script>";
+ if (strcmp(trim($requestType),$death)==0){
+    $type = "deathrequest";
+ }
+ elseif (strcmp(trim($requestType),$birth)==0){
+    $type = "birthrequest";
+}
+elseif (strcmp(trim($requestType),$marriage)==0){
+    $type = "marriagerequest";
+}
+elseif (strcmp(trim($requestType),$divorce)==0){
+    $type = "divorcerequest";
+}
+elseif (strcmp(trim($requestType),$civil)==0){
+    $type = "civilrequest";
+}
+elseif (strcmp(trim($requestType),$civilLost)==0){
+    $sql4 = "UPDATE request SET requestType = 'CIVIL' ,readManager =1,managerId='$EmployeeID',stat=1,scheduled=1,readCash=1
+    WHERE id ='$id' ";
+     $stmt4 = $pdo ->prepare($sql4);
+     $stmt4 ->execute();
+     
+}
+else{
+    echo" <script> alert('Unable to decline due to request type')</script>";
     header("location:signOff.php");
-    
+}
+if($type){
+ 
+$sql = "DELETE FROM  $type where id ='$id' ";
+$stmt = $pdo->prepare($sql);
+if ($stmt->execute()) { //deleting files from Xrequest table
+    $sql3 = "DELETE FROM request where id = '$id'";
+    $stmt3 = $pdo->prepare($sql3);
+    $stmt3->execute(); //deleting file from request table
+}
 }
    
+    
+        $sql2 = "INSERT INTO notification(id,notificationDate,notificationContent,sender) 
+                     values('$applierId','$notificationDate','Message: Your Request has been denied due to fradulent activity! PLease contact the woreda by the Employee ID','$EmployeeID');";
+        $stmt2 = $pdo->prepare($sql2);
+        $stmt2->execute(); // sending notification to the user 
+        echo "<script> alert('request has been succesfuly declined')</script>";
+        header("location:signOff.php");
 
-?>
+
+
+
+

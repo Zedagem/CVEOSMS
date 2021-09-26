@@ -1,46 +1,47 @@
 <?php
 require_once "../../dbconnection.php"; 
-$sch = $_POST['schedule'];
-$id= $_POST['id'];
-$phone = $_POST['phone'];
-$requestType =$_POST['Rtype'];
+$sch = trim($_POST['schedule']);
+$id= trim($_POST['id']);
+$applierId = trim($_POST['applierId']);
+$requestType = trim($_POST['requestType']);
+$empId =  $_SESSION["EmployeeID"];
+
+$requestType =trim($_POST['Rtype']);
 $currentDate= date("Y-m-d");
 
 if($_POST['schedule'])
 {
-    $sch = $_POST['schedule'];
-    $sql="SELECT * from sch where schDate=$sch";
+    $sch = trim($_POST['schedule']);
+    $sql="SELECT * from sch where schDate='$sch'";
     $stmt = $pdo->prepare($sql);
     $stmt ->execute();
-        if($stmt->rowCount() <= 5){
+        if($stmt->rowCount() < 5){
            
             $sql2= "INSERT INTO sch (requestType,currentDate,schDate) VALUES ('$requestType','$currentDate','$sch');";
-            $descriiption = "You have been Scheduleded for : ".$sch;
+            $description = "For your ".$requestType." requst ,you have been Scheduleded for : ".$sch;
             $stmt2 = $pdo->prepare($sql2);
             $stmt2 ->execute();
 
-            $sql3 = "INSERT INTO cveosmstest.notification (ResPhone,notificationDate,notificationContent) VALUES ('$phone','$currentDate','$descriiption');";
+            $sql3 = "INSERT INTO cveosmstest.notification (id,notificationDate,notificationContent,sender) VALUES ('$applierId','$currentDate','$description','Clerk');";
             $stmt3 = $pdo->prepare($sql3);
             $stmt3 ->execute();
 
-            $sql4 ="UPDATE  birthrequest SET schDate='$sch' , scheduled = 1 where id = $id";
+            $sql4 ="UPDATE  request SET scheduledDate='$sch' , scheduled = 1 where id = $id";
             $stmt4 = $pdo->prepare($sql4);
             $stmt4 ->execute();
             
            
             echo <<< EOF
 
-                            <script> alert('Scheduled Successfuly !!!') </script>
-                            works
+                            <script> alert('Scheduled Successfuly !!!'); </script>
+                            
             EOF;
 
         }
         else{
-            echo <<< EOF
-
-                            <script> alert('Sorry the date you picked if Fully Booked !!!') </script>
-                            sorry date booked
-            EOF;
+                       echo"  <script> alert('Sorry the date you picked if Fully Booked !!!'); </script>";
+                             
+           
         }
 
 }
@@ -56,5 +57,6 @@ unset($stmt2);
 unset($stmt3);
 unset($stmt4);
 header("location:schedule.php");
+
 
 ?>

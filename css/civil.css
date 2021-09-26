@@ -1,0 +1,33 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+#page_1 {
+  margin: 100px;
+}
+#title{
+    position: absolute;
+    top: 134px;
+    left: 300px;
+    font-weight: bold;
+    color: rgba(63,99,157,1);
+}
+.blueBold{
+    font-weight: bold;
+    color: rgba(63,99,157,1);
+
+}
+.black{
+    color: black;
+}
+.nameAmharic{
+    position: relative;
+    bottom: 130px;
+    left: 130px;
+}
+.name{
+    position: absolute;
+    top: 130px;
+    left: 130px;
+}

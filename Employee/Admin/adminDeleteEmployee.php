@@ -1,13 +1,19 @@
 <?php
-// Initialize the session
+//Initialize the session
 session_start();
 
-// Check if the user is logged in, if not then redirect him to login page
-if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
-    header("location: ../login.php");
-    exit;
-}
+$id=trim($_SESSION["EmployeeID"]);
+$cut = substr($id, 0, -6);
 
+
+
+// Check if the user is logged in, if not then redirect him to login page
+if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true  || strcmp($cut,'adm') != 0) {
+  
+    header("location: http://localhost/Employee/login.php");
+    exit;
+
+}
 ?>
 <?php
 require_once "../../dbconnection.php";

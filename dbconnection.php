@@ -4,7 +4,7 @@
 // define('DB_USERNAME', 'root');
 // define('DB_PASSWORD', '');
 // define('DB_NAME', 'cveosmstest');
-$DB_SERVER = 'localhost';
+$DB_SERVER = '127.0.0.1';
 $DB_USERNAME = 'root';
 $DB_PASSWORD = '';
 $DB_NAME ='cveosmstest';

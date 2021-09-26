@@ -1,4 +1,11 @@
+
 <?php 
+if(isset( $_SESSION["EmployeeID"]))
+{
+   
+}
+
+else{
  if(include "../dbconnection.php"){
  $phoneNumber = $_SESSION['phoneNumber'];
     $sql = "SELECT * FROM resident where Phone = '$phoneNumber' ";
@@ -21,13 +28,13 @@
  ?>
  <div class="container-fluid"> 
     <div class="sidenav text-center">
-            <div class="pt-3 pb-5"> 
+            <div class="pt-3 pb-3 "> 
                 <a id="logo" href="userDashboard.php">CVEOSMS</a>
             </div>
 
             <div>
                 <ul>
-                    <li class="mb-4"><img class="rounded-circle"  src="<?php echo "http://localhost:8080/". $_SESSION['profile_pic'];?>" alt="profile picture" width="100vw" height="100vw"></li>
+                    <li class="mb-4"><img class="rounded-circle"  src="<?php echo "http://localhost/". $_SESSION['profile_pic'];?>" alt="profile picture" width="100vw" height="100vw"></li>
                     <li><?php echo $_SESSION["FirstName"] . " " .$_SESSION["MiddleName"] ?></li>
                     <li><?php echo $_SESSION["email"] ?></li>
                     <li><?php echo "+251".$_SESSION["phoneNumber"] ?></li>
@@ -44,9 +51,9 @@
             <a href="userProfile.php">Profile</a>
             </div>
 
-            <div class="mt-5">
+            <!-- <div class="mt-5">
             <a href="notification.php">Notification</a>
-            </div>
+            </div> -->
 
             <div class="mt-5">
             <a href="../sessionDestroy.php">LogOut</a>
@@ -84,3 +91,4 @@
             </ul>
 
        </div>
+<?php } ?>
